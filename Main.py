@@ -21,8 +21,6 @@ def main():
     if (not os.path.exists(filePath)):
         print("NO SUCH FILE EXISTS:", filePath)
         return
-        #import GenerateSampleIntegrations as GSI
-        #GSI.main()
     
     print('PLOTTING:', filePath)
 
