@@ -1,24 +1,30 @@
 # Voltage-Integration-Plotting
 
-## Generating Sample Data
+All commands are listed for Powershell
 
-```cmd
-python.exe .\GenerateSampleIntegrations.py`
-```
+---
 
-### Arguments
-
-| Arg Name | Default Arg Value      | Arg Value Type | Example               |
-| -------- | ---------------------- | -------------- | --------------------- |
-| filePath | sampleIntegrations.txt | String         | -filePath myData.txt |
-
-## Plotting Data
+## **Plotting Data**
 
 ```cmd
 python.exe .\Main.py`
 ```
 
-### Arguments
+### **Arguments - Data Plotting**
+
+| Arg Name | Default Arg Value      | Arg Value Type | Example               |
+| -------- | ---------------------- | -------------- | --------------------- |
+| filePath | sampleIntegrations.txt | String         | -filePath myData.txt |
+
+---
+
+## **Generating Sample Data**
+
+```cmd
+python.exe .\GenerateSampleIntegrations.py`
+```
+
+### **Arguments - Data Generation**
 
 | Arg Name         | Default Arg Value      | Arg Value Type | Example               |
 | ---------------- | ---------------------- | -------------- | --------------------- |
