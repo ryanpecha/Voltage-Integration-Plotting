@@ -15,11 +15,47 @@ def generateSampleIntegrations(fileName : str, integrationCount : int, startTime
 
 
 def main():
+
+    import sys
+    
     fileName = 'sampleIntegrations.txt'
+    
     integrationCount = 10_000
+    
     startTime = 0
-    timeStepRange = (0.2,0.2)
-    voltageRange = (0,3.5)    
+    
+    timeStepMin = 0.2
+    timeStepMax = 0.2
+    
+    voltageMin = 0
+    voltageMax = 3.5
+    
+    for i in range(len(sys.argv)):
+        arg = sys.argv[i]
+        
+        if (arg == '-filePath'):
+            filePath = sys.argv[i + 1]
+        
+        if (arg == '-integrationCount'):
+            integrationCount = int(sys.argv[i + 1])
+            
+        if (arg == '-startTime'):
+            startTime = float(sys.argv[i + 1])
+        
+        if (arg == '-timeStepMin'):
+            timeStepMin = float(sys.argv[i + 1])
+        
+        if (arg == '-timeStepMax'):
+            timeStepMax = float(sys.argv[i + 1])
+        
+        if (arg == '-voltageMin'):
+            voltageMin = float(sys.argv[i + 1])
+        
+        if (arg == '-voltageMax'):
+            voltageMax = float(sys.argv[i + 1])
+
+    timeStepRange = (timeStepMin,timeStepMax)
+    voltageRange = (voltageMin,voltageMax)    
     generateSampleIntegrations(fileName, integrationCount, startTime, timeStepRange, voltageRange)
 
 
