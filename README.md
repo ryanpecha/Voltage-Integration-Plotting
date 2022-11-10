@@ -2,6 +2,7 @@
 
 ## **Dependencies**
 
+* Python 3.10.8
 * All commands are listed for Powershell
 * All dependencies are listed @ `requirements.txt`
 
