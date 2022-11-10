@@ -18,7 +18,7 @@ def main():
 
     import sys
     
-    fileName = 'sampleIntegrations.txt'
+    filePath = 'sampleIntegrations.txt'
     
     integrationCount = 10_000
     
@@ -56,7 +56,7 @@ def main():
 
     timeStepRange = (timeStepMin,timeStepMax)
     voltageRange = (voltageMin,voltageMax)    
-    generateSampleIntegrations(fileName, integrationCount, startTime, timeStepRange, voltageRange)
+    generateSampleIntegrations(filePath, integrationCount, startTime, timeStepRange, voltageRange)
 
 
 
