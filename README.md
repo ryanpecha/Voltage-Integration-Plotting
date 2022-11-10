@@ -35,6 +35,7 @@ python.exe .\GenerateSampleIntegrations.py
 | timeStepMax      | 0.2                    | float          | -timeStepMax 0.3     |
 | voltageMin       | 0                      | float          | -voltageMin 0.1       |
 | voltageMax       | 3.5                    | float          | -voltageMax 5         |
+| voltageMaxStep   | 0.1                    | float          | -voltageMaxStep 0.2   |
 
 ---
 
