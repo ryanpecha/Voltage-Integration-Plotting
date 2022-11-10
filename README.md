@@ -35,3 +35,14 @@ python.exe .\GenerateSampleIntegrations.py`
 | timeStepMax      | 0.2                    | float          | -timeStepMax 0.3     |
 | voltageMin       | 0                      | float          | -voltageMin 0.1       |
 | voltageMax       | 3.5                    | float          | -voltageMax 5         |
+
+---
+
+## **Example**
+
+```cmd
+python.exe .\GenerateSampleIntegrations.py -filePath myData.csv`
+python.exe .\Main.py` -filePath myData.csv
+```
+
+![Plot of Generated Sample Data](./Figure_1.png "Plot of Generated Sample Data")
