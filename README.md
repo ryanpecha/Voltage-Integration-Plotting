@@ -1,6 +1,15 @@
 # Voltage-Integration-Plotting
 
-All commands are listed for Powershell
+## **Dependencies**
+
+* All commands are listed for Powershell
+* All dependencies are listed @ `requirements.txt`
+
+### **Installing Dependencies**
+
+``` cmd
+pip install -r .\requirements.txt
+```
 
 ---
 
@@ -39,7 +48,7 @@ python.exe .\GenerateSampleIntegrations.py
 
 ---
 
-## **Example**
+## **Output Example**
 
 ```cmd
 python.exe .\GenerateSampleIntegrations.py -filePath myData.csv
