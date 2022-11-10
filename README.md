@@ -7,7 +7,7 @@ All commands are listed for Powershell
 ## **Plotting Data**
 
 ```cmd
-python.exe .\Main.py`
+python.exe .\Main.py
 ```
 
 ### **Arguments - Data Plotting**
@@ -21,7 +21,7 @@ python.exe .\Main.py`
 ## **Generating Sample Data**
 
 ```cmd
-python.exe .\GenerateSampleIntegrations.py`
+python.exe .\GenerateSampleIntegrations.py
 ```
 
 ### **Arguments - Data Generation**
@@ -41,8 +41,8 @@ python.exe .\GenerateSampleIntegrations.py`
 ## **Example**
 
 ```cmd
-python.exe .\GenerateSampleIntegrations.py -filePath myData.csv`
-python.exe .\Main.py` -filePath myData.csv
+python.exe .\GenerateSampleIntegrations.py -filePath myData.csv
+python.exe .\Main.py -filePath myData.csv
 ```
 
 ![Plot of Generated Sample Data](./Figure_1.png "Plot of Generated Sample Data")
