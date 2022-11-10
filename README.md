@@ -4,4 +4,4 @@
 `python.exe .\GenerateSampleIntegrations.py`
 
 ## Plotting Data
-``
+`python.exe .\Main.py`
