@@ -42,7 +42,7 @@ def main():
     
     print('PLOTTING:', scanCsvPath)
     with open(scanCsvPath, 'r') as openFile:
-        integrationsDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
+        scanCsvDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
 
 
 
