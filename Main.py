@@ -9,7 +9,7 @@ def main():
     import sys
     
     integrationsPath = 'sampleIntegrations.csv'
-    scanCsvPath = 'sampleScanCSV.csv'
+    dipPath = 'sampleScanCSV.csv'
 
     for i in range(len(sys.argv)):
         arg = sys.argv[i]
@@ -18,11 +18,11 @@ def main():
                 print("'-iPath' WAS NOT GIVEN AN ARGUMENT")
                 return
             integrationsPath = sys.argv[i + 1]
-        if (arg == '-sPath'):
+        if (arg == '-dPath'):
             if (i + 1 == len(sys.argv)):
-                print("'-sPath' WAS NOT GIVEN AN ARGUMENT")
+                print("'-dPath' WAS NOT GIVEN AN ARGUMENT")
                 return
-            scanCsvPath = sys.argv[i + 1]
+            dipPath = sys.argv[i + 1]
 
 
 
@@ -30,8 +30,8 @@ def main():
         print("NO SUCH FILE EXISTS:", integrationsPath)
         return
     
-    if (not os.path.exists(scanCsvPath)):
-        print("NO SUCH FILE EXISTS:", scanCsvPath)
+    if (not os.path.exists(dipPath)):
+        print("NO SUCH FILE EXISTS:", dipPath)
         return
 
 
@@ -40,15 +40,18 @@ def main():
     with open(integrationsPath, 'r') as openFile:
         integrationsDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
     
-    print('PLOTTING:', scanCsvPath)
-    with open(scanCsvPath, 'r') as openFile:
-        scanCsvDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
+    print('PLOTTING:', dipPath)
+    with open(dipPath, 'r') as openFile:
+        dipsDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
 
 
 
     # simData uses t=0, v=1
     timeStamps = integrationsDataFrame.iloc[:,11]    
     voltages = integrationsDataFrame.iloc[:,0]
+    dipVertices = dipsDataFrame.iloc[:,5]
+
+
     
     plt.plot(timeStamps,voltages)
     plt.title('Voltage Integrations')
