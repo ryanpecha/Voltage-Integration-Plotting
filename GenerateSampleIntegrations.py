@@ -27,7 +27,7 @@ def main():
 
     import sys
     
-    filePath = 'sampleIntegrations.txt'
+    filePath = 'sampleIntegrations.csv'
     
     integrationCount = 10_000
     

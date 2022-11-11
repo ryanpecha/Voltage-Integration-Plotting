@@ -8,116 +8,49 @@ def main():
     import os
     import sys
     
-    filePath = 'sampleIntegrations.txt'
+    integrationsPath = 'sampleIntegrations.csv'
+    scanCsvPath = 'sampleScanCSV.csv'
 
     for i in range(len(sys.argv)):
         arg = sys.argv[i]
-        if (arg == '-filePath'):
+        if (arg == '-iPath'):
             if (i + 1 == len(sys.argv)):
-                print("'-filePath' WAS NOT GIVEN AN ARGUMENT")
+                print("'-iPath' WAS NOT GIVEN AN ARGUMENT")
                 return
-            filePath = sys.argv[i + 1]
+            integrationsPath = sys.argv[i + 1]
+        if (arg == '-sPath'):
+            if (i + 1 == len(sys.argv)):
+                print("'-sPath' WAS NOT GIVEN AN ARGUMENT")
+                return
+            scanCsvPath = sys.argv[i + 1]
 
-    if (not os.path.exists(filePath)):
-        print("NO SUCH FILE EXISTS:", filePath)
+
+
+    if (not os.path.exists(integrationsPath)):
+        print("NO SUCH FILE EXISTS:", integrationsPath)
         return
     
-    print('PLOTTING:', filePath)
-
-    with open(filePath, 'r') as openFile:
-        dataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
-
-    # simData uses t=0, v=1
-    timeStamps = dataFrame.iloc[:,11]    
-    voltages = dataFrame.iloc[:,0]
-    plt.plot(timeStamps,voltages)
-
-    plt.title('Voltage Integrations')
-    plt.xlabel(f'Time-Stamp SECONDS [ {timeStamps.min()} , {timeStamps.max()} ]')
-    plt.ylabel(f'Voltage [ {voltages.min()} , {voltages.max()} ]')
-    plt.show()
-
-
-
-if (__name__ == '__main__'):
-    main()
-
-
-
-def main():
-    
-    import matplotlib.pyplot as plt
-    import pandas as pd
-    import os
-    import sys
-    
-    filePath = 'sampleIntegrations.txt'
-
-    for i in range(len(sys.argv)):
-        arg = sys.argv[i]
-        if (arg == '-filePath'):
-            if (i + 1 == len(sys.argv)):
-                print("'-filePath' WAS NOT GIVEN AN ARGUMENT")
-                return
-            filePath = sys.argv[i + 1]
-
-    if (not os.path.exists(filePath)):
-        print("NO SUCH FILE EXISTS:", filePath)
+    if (not os.path.exists(scanCsvPath)):
+        print("NO SUCH FILE EXISTS:", scanCsvPath)
         return
-    
-    print('PLOTTING:', filePath)
 
-    with open(filePath, 'r') as openFile:
-        dataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
+
+
+    print('PLOTTING:', integrationsPath)
+    with open(integrationsPath, 'r') as openFile:
+        integrationsDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
+    
+    print('PLOTTING:', scanCsvPath)
+    with open(scanCsvPath, 'r') as openFile:
+        integrationsDataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
+
+
 
     # simData uses t=0, v=1
-    timeStamps = dataFrame.iloc[:,11]    
-    voltages = dataFrame.iloc[:,0]
+    timeStamps = integrationsDataFrame.iloc[:,11]    
+    voltages = integrationsDataFrame.iloc[:,0]
+    
     plt.plot(timeStamps,voltages)
-
-    plt.title('Voltage Integrations')
-    plt.xlabel(f'Time-Stamp SECONDS [ {timeStamps.min()} , {timeStamps.max()} ]')
-    plt.ylabel(f'Voltage [ {voltages.min()} , {voltages.max()} ]')
-    plt.show()
-
-
-
-if (__name__ == '__main__'):
-    main()
-
-
-
-def main():
-    
-    import matplotlib.pyplot as plt
-    import pandas as pd
-    import os
-    import sys
-    
-    filePath = 'sampleIntegrations.txt'
-
-    for i in range(len(sys.argv)):
-        arg = sys.argv[i]
-        if (arg == '-filePath'):
-            if (i + 1 == len(sys.argv)):
-                print("'-filePath' WAS NOT GIVEN AN ARGUMENT")
-                return
-            filePath = sys.argv[i + 1]
-
-    if (not os.path.exists(filePath)):
-        print("NO SUCH FILE EXISTS:", filePath)
-        return
-    
-    print('PLOTTING:', filePath)
-
-    with open(filePath, 'r') as openFile:
-        dataFrame = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
-
-    # simData uses t=0, v=1
-    timeStamps = dataFrame.iloc[:,11]    
-    voltages = dataFrame.iloc[:,0]
-    plt.plot(timeStamps,voltages)
-
     plt.title('Voltage Integrations')
     plt.xlabel(f'Time-Stamp SECONDS [ {timeStamps.min()} , {timeStamps.max()} ]')
     plt.ylabel(f'Voltage [ {voltages.min()} , {voltages.max()} ]')
