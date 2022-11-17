@@ -108,14 +108,14 @@ def main():
 
     # initializing and drawing the ablation intersections
     ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablations')
-    anomolies, = plt.plot([], [], 'x', color='purple', markersize=10, label='Anomolies')
+    anomalies, = plt.plot([], [], 'x', color='purple', markersize=10, label='Anomalies')
     def setAblations(floor):
 
         ablationsX = []
         ablationsY = []
         
-        anomoliesX = []
-        anomoliesY = []
+        anomaliesX = []
+        anomaliesY = []
         
         saddleSize = 0
         saddleIndex = 0
@@ -135,8 +135,8 @@ def main():
             # increased beyond floor, adding the saddle
             if (i_voltages[i + 1] > floor):
                 if (saddleSize == 0):
-                    anomoliesX.append(i_timeStamps[saddleIndex])
-                    anomoliesY.append(i_voltages[saddleIndex])
+                    anomaliesX.append(i_timeStamps[saddleIndex])
+                    anomaliesY.append(i_voltages[saddleIndex])
                 else:
                     ablationsX.append(i_timeStamps[saddleIndex])
                     ablationsY.append(i_voltages[saddleIndex])
@@ -151,8 +151,8 @@ def main():
         ablations.set_xdata(ablationsX)
         ablations.set_ydata(ablationsY)
 
-        anomolies.set_xdata(anomoliesX)
-        anomolies.set_ydata(anomoliesY)
+        anomalies.set_xdata(anomaliesX)
+        anomalies.set_ydata(anomaliesY)
         
 
 
