@@ -88,14 +88,12 @@ def main():
     fig.set_facecolor((figShade,figShade,figShade))
     ax.set_facecolor((axShade,axShade,axShade))
 
-    plt.plot(i_timeStamps,i_voltages, linewidth=1)
+    plt.plot(i_timeStamps,i_voltages, linewidth=1, label='Voltage')
     plt.subplots_adjust(bottom=0.2)
     plt.title('Ablations On Voltage-Integrations')
     plt.xlabel(f'Time-Stamp SECONDS [ {i_timeStamps.min()} , {i_timeStamps.max()} ]')
     plt.ylabel(f'Voltage [ {i_voltages.min()} , {i_voltages.max()} ]')
     
-
-
     
     
     # calculating the interval between integrations
@@ -105,13 +103,13 @@ def main():
     initialFloor = 0.20
     floorX = [i_timeStamps.min(),i_timeStamps.max()]
     floorY = [initialFloor,initialFloor]
-    floorLine, = plt.plot(floorX, floorY, color = 'purple', linewidth=1, linestyle='dashed', dash_capstyle='round')
+    floorLine, = plt.plot(floorX, floorY, color = 'purple', linewidth=1, linestyle='dashed', label='Floor')
 
-
+    
 
     # initializing and drawing the ablation intersections
-    ablations, = plt.plot([], [], 'x', color='green', markersize=5, linewidth=5)
-    anomolies, = plt.plot([], [], 'x', color='purple', markersize=15,  linewidth=5)
+    ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablations')
+    anomolies, = plt.plot([], [], 'x', color='purple', markersize=10, label='Anomolies')
     def setAblations(floor):
 
         ablationsX = []
@@ -164,18 +162,20 @@ def main():
 
 
 
+    errors, = plt.plot([], [], 'x', color='red', markersize=10, label='Missing')
+
     # need most common interval
     # need an average interval
     # need an allowable interval range
 
-
-
-    errors, = plt.plot([], [], 'x', color='red', markersize=15)
-
-
-
+    # TODO add toggle button for include anomolies within ablations 
     # TODO error checking based on integration intervals
     # TODO slider reset buttons
+    # TODO add Voltge units
+
+
+
+    plt.legend(facecolor=(figShade,figShade,figShade))
 
 
 
@@ -197,7 +197,7 @@ def main():
         setAblations(val)
     floorSlider.on_changed(updateFloor)
 
-
+    
 
     # draw
     plt.show()
