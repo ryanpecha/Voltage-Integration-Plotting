@@ -6,10 +6,13 @@ def main():
     from matplotlib.widgets import Slider, Button
     import matplotlib.pyplot as plt
     import pandas as pd
-    import os
+    import numpy as np
     import sys
+    import os
     
 
+
+    # defaults
 
     # integrations
     iPath = 'sampleIntegrations.csv'
@@ -23,6 +26,8 @@ def main():
     a_vertexIndex = 0
 
 
+
+    # args
 
     for i in range(len(sys.argv)):
         arg = sys.argv[i]
@@ -44,6 +49,8 @@ def main():
 
 
 
+    # path verification
+
     if (not os.path.exists(iPath)):
         print("NO SUCH INTEGRATIONS FILE EXISTS:", iPath)
         return
@@ -54,10 +61,11 @@ def main():
 
 
 
+    # csv to dataframe
+
     print('PLOTTING:', iPath)
     with open(iPath, 'r') as openFile:
         iDF = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
-    
     
     print('PLOTTING:', aPath)
     with open(aPath, 'r') as openFile:
@@ -65,45 +73,63 @@ def main():
     
 
 
+    # dataframe to column/list
     i_timeStamps = iDF.iloc[:,i_timeStampIndex]
     i_voltages = iDF.iloc[:,i_voltageIndex]
     a_vertices = aDF.iloc[:,a_vertexIndex]
 
 
+
+    # plotting the primary integration data
+    title = 'Ablations On Voltage-Integrations'
     fig, ax = plt.subplots()
-    plt.subplots_adjust(bottom=0.175)
-    
+    plt.subplots_adjust(bottom=0.2)
     plt.plot(i_timeStamps,i_voltages)
-    plt.title('Voltage Integrations')
+    plt.title(title)
     plt.xlabel(f'Time-Stamp SECONDS [ {i_timeStamps.min()} , {i_timeStamps.max()} ]')
     plt.ylabel(f'Voltage [ {i_voltages.min()} , {i_voltages.max()} ]')
 
+    
+    
+    # calculating the interval between integrations
+    #timeStep = i_timeStamps[1] - i_timeStamps[0]
+
+    # initializing and drawing the floor line 
+    initialFloor = 0.10
+    floorX = [i_timeStamps.min(),i_timeStamps.max()]
+    floorY = [initialFloor,initialFloor]
+    floorLine, = plt.plot(floorX, floorY)
+
+    # initializing and drawing the ablation intersections
+    
 
 
+
+    # axis for positioning the floor slider
     left = 0.125
     bottom = 0.025
-    width = 0.75
-    height = 0.05
+    width = 0.775
+    height = 0.1
     floorAxis = plt.axes([left, bottom, width, height])
 
-    initialFloor = 1
+    # floor slider
     minFloor = i_voltages.min()
-    maxFloor = i_timeStamps.max()
-    floorIncrement = 0.01
+    maxFloor = i_voltages.max()
+    floorIncrement = 0.001
     floorSlider = Slider(ax=floorAxis, label='Floor', valmin=minFloor, valmax=maxFloor, valinit=initialFloor, valstep=floorIncrement)
-
     def updateFloor(val):
-        print('NEW FLOOR :', val)
-
+        floorLine.set_ydata([val,val])
     floorSlider.on_changed(updateFloor)
 
 
 
-    plt.show(block=True)
+    # draw
+    plt.show()
 
 
 
 
 
+# don't run on import
 if (__name__ == '__main__'):
     main()
