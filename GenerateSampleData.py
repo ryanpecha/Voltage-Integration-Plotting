@@ -11,7 +11,6 @@ def main():
     import random
     
 
-    
     # integrations
     iPath = 'sampleIntegrations.csv'
     # ablations
@@ -20,9 +19,7 @@ def main():
     startTime = 0
 
     integrationCount = 10_000
-        
-    timeStepMin = 0.2
-    timeStepMax = 0.2
+    timeStep = 0.2
     
     voltageMin = 0
     voltageMax = 3.5
@@ -38,18 +35,15 @@ def main():
         
         if (arg == '-aPath'):
             aPath = sys.argv[i + 1]
-        
-        if (arg == '-integrationCount'):
-            integrationCount = int(sys.argv[i + 1])
             
         if (arg == '-startTime'):
             startTime = float(sys.argv[i + 1])
         
-        if (arg == '-timeStepMin'):
-            timeStepMin = float(sys.argv[i + 1])
-        
-        if (arg == '-timeStepMax'):
-            timeStepMax = float(sys.argv[i + 1])
+        if (arg == '-integrationCount'):
+            integrationCount = int(sys.argv[i + 1])
+
+        if (arg == '-timeStep'):
+            timeStep = int(sys.argv[i + 1])
         
         if (arg == '-voltageMin'):
             voltageMin = float(sys.argv[i + 1])
@@ -67,7 +61,8 @@ def main():
     with open(iPath,'w') as iFile:
 
         for _ in range(integrationCount):
-            currentTime += random.uniform(timeStepMin,timeStepMax)
+
+            #currentTime += random.uniform(timeStepMin,timeStepMax)
             voltageStep = random.uniform(-voltageStepMax,voltageStepMax)
 
             if (currentVoltage + voltageStep > voltageMax):
@@ -82,6 +77,8 @@ def main():
             
             line = str(currentTime) + ',' + str(currentVoltage) + '\n'
             iFile.write(line)
+
+            currentTime += timeStep
         
         iFile.close()
 
