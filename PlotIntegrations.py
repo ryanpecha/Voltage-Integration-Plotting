@@ -9,7 +9,7 @@ def main():
     import numpy as np
     import sys
     import os
-    
+
 
 
     # defaults
@@ -80,14 +80,21 @@ def main():
 
 
 
-    # plotting the primary integration data
-    title = 'Ablations On Voltage-Integrations'
+    # plotting the primary integration data    
+
     fig, ax = plt.subplots()
+    figShade = 0.75
+    axShade = 0.85
+    fig.set_facecolor((figShade,figShade,figShade))
+    ax.set_facecolor((axShade,axShade,axShade))
+
+    plt.plot(i_timeStamps,i_voltages, linewidth=1)
     plt.subplots_adjust(bottom=0.2)
-    plt.plot(i_timeStamps,i_voltages)
-    plt.title(title)
+    plt.title('Ablations On Voltage-Integrations')
     plt.xlabel(f'Time-Stamp SECONDS [ {i_timeStamps.min()} , {i_timeStamps.max()} ]')
     plt.ylabel(f'Voltage [ {i_voltages.min()} , {i_voltages.max()} ]')
+    
+
 
     
     
@@ -95,13 +102,80 @@ def main():
     #timeStep = i_timeStamps[1] - i_timeStamps[0]
 
     # initializing and drawing the floor line 
-    initialFloor = 0.10
+    initialFloor = 0.20
     floorX = [i_timeStamps.min(),i_timeStamps.max()]
     floorY = [initialFloor,initialFloor]
-    floorLine, = plt.plot(floorX, floorY)
+    floorLine, = plt.plot(floorX, floorY, color = 'purple', linewidth=1, linestyle='dashed', dash_capstyle='round')
+
+
 
     # initializing and drawing the ablation intersections
-    
+    ablations, = plt.plot([], [], 'x', color='green', markersize=5, linewidth=5)
+    anomolies, = plt.plot([], [], 'x', color='purple', markersize=15,  linewidth=5)
+    def setAblations(floor):
+
+        ablationsX = []
+        ablationsY = []
+        
+        anomoliesX = []
+        anomoliesY = []
+        
+        saddleSize = 0
+        saddleIndex = 0
+        
+        # iterating over integrations
+        for i in range(1,i_timeStamps.size - 1):
+            voltage = i_voltages[i]
+            
+            # ignoring above the floor
+            if (voltage > floor):
+                continue
+            
+            # voltage decreased, shifting the saddle right
+            if (i_voltages[i - 1] > voltage):
+                saddleIndex = i
+            
+            # increased beyond floor, adding the saddle
+            if (i_voltages[i + 1] > floor):
+                if (saddleSize == 0):
+                    anomoliesX.append(i_timeStamps[saddleIndex])
+                    anomoliesY.append(i_voltages[saddleIndex])
+                else:
+                    ablationsX.append(i_timeStamps[saddleIndex])
+                    ablationsY.append(i_voltages[saddleIndex])
+                saddleSize = 0
+            
+            # our saddle has grown
+            else:
+                saddleSize += 1
+        
+        # updating plot
+        
+        ablations.set_xdata(ablationsX)
+        ablations.set_ydata(ablationsY)
+
+        anomolies.set_xdata(anomoliesX)
+        anomolies.set_ydata(anomoliesY)
+        
+
+
+    # initial ablation set
+    setAblations(initialFloor)
+
+
+
+    # need most common interval
+    # need an average interval
+    # need an allowable interval range
+
+
+
+    errors, = plt.plot([], [], 'x', color='red', markersize=15)
+
+
+
+    # TODO error checking based on integration intervals
+    # TODO slider reset buttons
 
 
 
@@ -113,12 +187,14 @@ def main():
     floorAxis = plt.axes([left, bottom, width, height])
 
     # floor slider
-    minFloor = i_voltages.min()
-    maxFloor = i_voltages.max()
     floorIncrement = 0.001
-    floorSlider = Slider(ax=floorAxis, label='Floor', valmin=minFloor, valmax=maxFloor, valinit=initialFloor, valstep=floorIncrement)
+    minFloor = i_voltages.min() - floorIncrement
+    maxFloor = i_voltages.max() + floorIncrement
+    floorSlider = Slider(ax=floorAxis, label='Floor', valmin=minFloor, valmax=maxFloor, valinit=initialFloor, valstep=floorIncrement, track_color=(axShade,axShade,axShade))
     def updateFloor(val):
+        # drawing the floor and ablations
         floorLine.set_ydata([val,val])
+        setAblations(val)
     floorSlider.on_changed(updateFloor)
 
 
@@ -133,3 +209,9 @@ def main():
 # don't run on import
 if (__name__ == '__main__'):
     main()
+
+
+# default
+# seaborn-colorblind
+# seaborn-deep
+# tableau-colorblind10
