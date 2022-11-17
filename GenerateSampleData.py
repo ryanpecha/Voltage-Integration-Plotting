@@ -11,6 +11,9 @@ def main():
     import random
     
 
+
+    # defaults
+
     # integrations
     iPath = 'sampleIntegrations.csv'
     # ablations
@@ -26,6 +29,8 @@ def main():
     voltageStepMax = 0.1
     
 
+
+    # args
 
     for i in range(len(sys.argv)):
         arg = sys.argv[i]
@@ -55,6 +60,8 @@ def main():
             voltageStepMax = float(sys.argv[i + 1])
 
 
+    
+    # generation loop
 
     currentTime = startTime
     currentVoltage = random.uniform(voltageMin,voltageMax)
@@ -62,9 +69,8 @@ def main():
 
         for _ in range(integrationCount):
 
-            #currentTime += random.uniform(timeStepMin,timeStepMax)
+            # stepping the voltage in range
             voltageStep = random.uniform(-voltageStepMax,voltageStepMax)
-
             if (currentVoltage + voltageStep > voltageMax):
                 currentVoltage -= voltageStep
             elif (currentVoltage + voltageStep < voltageMin):
@@ -72,12 +78,15 @@ def main():
             else:
                 currentVoltage += voltageStep
 
+            # clamping voltage
             currentVoltage = max(voltageMin, currentVoltage)
             currentVoltage = min(voltageMax, currentVoltage)
             
+            # writing to file
             line = str(currentTime) + ',' + str(currentVoltage) + '\n'
             iFile.write(line)
 
+            # incrementing time
             currentTime += timeStep
         
         iFile.close()
@@ -86,5 +95,6 @@ def main():
 
 
 
+# don't run on import
 if (__name__ == '__main__'):
     main()
