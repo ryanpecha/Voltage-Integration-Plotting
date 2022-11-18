@@ -43,7 +43,7 @@ def main():
         if (arg == '-voltageIndex'):
             i_voltageIndex = int(sys.argv[i + 1])
         
-        if (arg == '-verticesIndex'):
+        if (arg == '-vertexIndex'):
             a_vertexIndex = int(sys.argv[i + 1])
 
 

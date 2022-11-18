@@ -28,7 +28,7 @@ python.exe .\Main.py
 | aPath          | sampleAblations.csv    | string         | -aPath myAblations.csv     |
 | timeStampIndex | 0                      | int            | -timeStampIndex 11         |
 | voltageIndex   | 1                      | int            | -voltageIndex 0            |
-| verticesIndex  | 0                      | int            | -verticesIndex 5           |
+| vertexIndex  | 0                      | int            | -vertexIndex 5           |
 
 ---
 
@@ -56,7 +56,7 @@ python.exe .\GenerateSampleIntegrations.py
 ## **Output Example**
 
 ```cmd
-python.exe .\PlotIntegrations.py -timeStampIndex 11 -voltageIndex 1 -a_vertexIndex 5
+python.exe .\PlotIntegrations.py -timeStampIndex 11 -voltageIndex 1 -vertexIndex 5
 ```
 
 **YIELDS:**
