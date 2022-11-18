@@ -5,6 +5,7 @@
 * Python 3.10.8
 * All commands are listed for Powershell
 * All dependencies are listed @ `requirements.txt`
+* UI variation indicates you are missing PyQT5
 
 ### **Installing Dependencies**
 
