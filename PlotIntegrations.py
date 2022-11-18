@@ -167,7 +167,7 @@ def main():
     # need an average interval
     # need an allowable interval range
 
-    # TODO add toggle button for include anomolies within ablations 
+    # TODO add toggle button for include anomalies within ablations 
     # TODO error checking based on integration intervals
     # TODO slider reset buttons
     # TODO add Voltge units
@@ -210,7 +210,3 @@ if (__name__ == '__main__'):
     main()
 
 
-# default
-# seaborn-colorblind
-# seaborn-deep
-# tableau-colorblind10
