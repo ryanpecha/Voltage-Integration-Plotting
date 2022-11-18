@@ -56,9 +56,9 @@ python.exe .\GenerateSampleIntegrations.py
 ## **Output Example**
 
 ```cmd
-python.exe .\Main.py -iPath myIntegrations.csv -aPath myAblations.csv
+python.exe .\PlotIntegrations.py -timeStampIndex 11 -voltageIndex 1 -a_vertexIndex 5
 ```
 
 **YIELDS:**
 
-![Plot of Generated Sample Data](./Figure_1.png "Plot of Existing Data")
+![Plot of Generated Sample Data](./Figure_1.png "Plot of Existing Sample Data")
