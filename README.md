@@ -64,4 +64,6 @@ python.exe .\PlotIntegrations.py -timeStampIndex 11 -voltageIndex 1 -vertexIndex
 
 ![Plot of Generated Sample Data](./Figure_1.png "Plot of Existing Sample Data")
 
+**ZOOMED:**
+
 ![Plot of Generated Sample Data](./Figure_2.png "Plot of Existing Sample Data - ZOOMED")
