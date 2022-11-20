@@ -3,11 +3,19 @@
 
 def main():
     
-    from matplotlib.widgets import Slider, Button
+    # imports
+    from matplotlib.widgets import Slider
     import matplotlib.pyplot as plt
     import pandas as pd
     import sys
     import os
+
+    # setting PyQT5 backend
+    try :
+        import matplotlib
+        matplotlib.use('qtagg')
+    except :
+        print("COULD NOT SET QT BACKEND")
 
 
 
@@ -225,7 +233,7 @@ def main():
         if (extraneousMissingCount > 0):
             print(f"WARNING > {extraneousMissingCount} UNIDENTIFIABLE ABLATIONS")
         if (extraneousMissingCount < 0):
-            print(f"WARNING > {extraneousMissingCount} MORE DETECTIONS THAN EXPECTED")
+            print(f"WARNING > {abs(extraneousMissingCount)} MORE DETECTIONS THAN EXPECTED")
         
 
 
