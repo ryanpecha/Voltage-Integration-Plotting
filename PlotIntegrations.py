@@ -261,12 +261,6 @@ def main():
 
 
 
-    # TODO add toggle button for include anomalies within ablations 
-    # TODO slider reset buttons
-    # TODO add Voltge units
-
-
-
     plt.legend(facecolor=(figShade,figShade,figShade))
 
 
