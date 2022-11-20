@@ -106,7 +106,7 @@ def main():
     plt.subplots_adjust(bottom=0.2)
     plt.title('Ablations On Voltage-Integrations')
     plt.xlabel(f'Time-Stamp SECONDS [ {i_timeStamps.min()} , {i_timeStamps.max()} ]')
-    plt.ylabel(f'Voltage [ {i_voltages.min()} , {i_voltages.max()} ]')
+    plt.ylabel(f'Voltage V [ {i_voltages.min()} , {i_voltages.max()} ]')
     
     
 
@@ -119,10 +119,10 @@ def main():
     
 
     # initializing and drawing the ablation intersections
-    ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablations')
-    anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Anomalies')
+    ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablation')
+    anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Anomaly')
     errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Missing')
-    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Miss Intersect')
+    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Intersect')
 
     # ablation set method
     def setAblations(floor):
