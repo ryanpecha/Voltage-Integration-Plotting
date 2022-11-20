@@ -8,6 +8,7 @@
 * UI variation indicates you are missing PyQT5
 * Data must have more  and valid ablations than errors
 * All indices start at 0, including index based args
+* Start indices should not include column header data
 
 ### **Installing Dependencies**
 

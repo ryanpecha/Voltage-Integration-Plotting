@@ -107,7 +107,6 @@ def main():
 
 
 
-
     # plotting the primary integration data    
 
     fig, ax = plt.subplots()
@@ -178,6 +177,7 @@ def main():
                     ablationsX.append(i_timeStamps[saddleIndex])
                     ablationsY.append(i_voltages[saddleIndex])
                     ablationTimeIndices.append(saddleIndex)
+                    #plt.text(x = i_timeStamps[saddleIndex], y = i_voltages[saddleIndex], s = str(len(ablationsX)), fontsize=10)
                 # getting index range of this saddle
                 saddles.append( (saddleIndex - saddleSize , saddleIndex) )
                 # resetting saddle size
@@ -253,6 +253,7 @@ def main():
                         # adding error y
                         errorsY.append(y)
                         errorsFlatY.append(averageAblationY)
+                        #text = plt.text(x = errorTime, y = averageAblationY, s = str(len(errorsY)), fontsize=10, color='red', verticalalignment='top')
 
         # updating errors / missing ablations on plot
         errors.set_xdata(errorsX)
@@ -262,11 +263,11 @@ def main():
 
         # unkown trailing / preceding missing ablations
         extraneousMissingCount = expectedAblationCount - len(errorsX) - len(ablationsX)
-        print("ABLATIONS > DETECTED:", len(ablationsX), "| EXPECTED:", expectedAblationCount, "| MISSING LOCATED:", len(errorsX), "| MISSING EXTRANEOUS:", extraneousMissingCount)
+        print("ABLATIONS > DETECTED:", len(ablationsX), "| EXPECTED:", expectedAblationCount, "| MISSING LOCATED:", len(errorsX), "| UNIDENTIFIED EXTRANEOUS:", extraneousMissingCount)
         if (extraneousMissingCount > 0):
             print(f"WARNING > {extraneousMissingCount} UNIDENTIFIABLE ABLATIONS")
         if (extraneousMissingCount < 0):
-            print(f"WARNING > {abs(extraneousMissingCount)} MORE DETECTIONS THAN EXPECTED")
+            print(f"WARNING > {abs(extraneousMissingCount)} MORE DETECTIONS THAN EXPECTED ABLATIONS")
         
 
 
