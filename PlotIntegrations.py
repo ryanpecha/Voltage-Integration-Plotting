@@ -122,7 +122,7 @@ def main():
     ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablations')
     anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Anomalies')
     errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Missing')
-    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Actual')
+    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Miss Intersect')
 
     # ablation set method
     def setAblations(floor):
@@ -179,47 +179,66 @@ def main():
         ablations.set_ydata(ablationsY)
 
         anomalies.set_xdata(anomaliesX)
-        anomalies.set_ydata(anomaliesY)
+        anomalies.set_ydata(anomaliesY)            
 
-        # calculating average and allowable step
-        ablationTimeStepAverage = (ablationsX[-1] - ablationsX[0]) / (len(ablationsX) - 1)
-        allowableTimeStep = ablationTimeStepAverage * 1.25
-        averageAblationY = 0
-        for y in ablationsY:
-            averageAblationY += y
-        averageAblationY /= len(ablationsY)
+        # cannot locate missing ablations with only one detected ablation
+        if (len(ablationsX) > 1):
 
-        # calculating missing ablations
-        for i in range(0, len(ablationsX) - 1):
-            curTime = ablationsX[i]
-            nextTime = ablationsX[i + 1]
-            distance = nextTime - curTime
-            
-            # idnetifying errors following from current ablation
-            if (distance > allowableTimeStep):
-                missCount = int(distance / ablationTimeStepAverage)
-                timeIndex = ablationTimeIndices[i]
+            #ablationTimeStepAverage = (ablationsX[-1] - ablationsX[0]) / (len(ablationsX) - 1)
+            # calculating mode and allowable step
+            timeSteps = {}
+            for i in range(len(ablationsX) - 1):
+                curTime = ablationsX[i]
+                nextTime = ablationsX[i + 1]
+                timeStep = nextTime - curTime
+                if timeStep in timeSteps:
+                    timeSteps[timeStep] += 1
+                else:
+                     timeSteps[timeStep] = 1
+            curAvgFreq = 0
+            ablationTimeStepMode = 0
+            for timeStep in timeSteps:
+                if (timeSteps[timeStep] > curAvgFreq):
+                    curAvgFreq = timeSteps[timeStep]
+                    ablationTimeStepMode = timeStep                
+
+            allowableTimeStep = ablationTimeStepMode * 1.25
+            averageAblationY = 0
+            for y in ablationsY:
+                averageAblationY += y
+            averageAblationY /= len(ablationsY)
+
+            # calculating missing ablations
+            for i in range(0, len(ablationsX) - 1):
+                curTime = ablationsX[i]
+                nextTime = ablationsX[i + 1]
+                distance = nextTime - curTime
                 
-                # building errors following current ablation
-                for m in range(1,missCount+1):
+                # idnetifying errors following from current ablation
+                if (distance > allowableTimeStep):
+                    missCount = int(distance / ablationTimeStepMode)
+                    timeIndex = ablationTimeIndices[i]
                     
-                    # adding error x
-                    errorTime = curTime + (ablationTimeStepAverage * m)
-                    errorsX.append(errorTime)
-                    
-                    # calculating actual error y value on plot
-                    while (i_timeStamps[timeIndex + 1] < errorTime):
-                        timeIndex += 1
-                    x1 = i_timeStamps[timeIndex]
-                    x2 = i_timeStamps[timeIndex + 1]
-                    y1 = i_voltages[timeIndex]
-                    y2 = i_voltages[timeIndex + 1]
-                    slope = (y2-y1) / (x2-x1)
-                    y = (slope * (errorTime - x1)) + y1
-                    
-                    # adding error y
-                    errorsY.append(y)
-                    errorsFlatY.append(averageAblationY)
+                    # building errors following current ablation
+                    for m in range(1,missCount+1):
+                        
+                        # adding error x
+                        errorTime = curTime + (ablationTimeStepMode * m)
+                        errorsX.append(errorTime)
+                        
+                        # calculating actual error y value on plot
+                        while (i_timeStamps[timeIndex + 1] < errorTime):
+                            timeIndex += 1
+                        x1 = i_timeStamps[timeIndex]
+                        x2 = i_timeStamps[timeIndex + 1]
+                        y1 = i_voltages[timeIndex]
+                        y2 = i_voltages[timeIndex + 1]
+                        slope = (y2-y1) / (x2-x1)
+                        y = (slope * (errorTime - x1)) + y1
+                        
+                        # adding error y
+                        errorsY.append(y)
+                        errorsFlatY.append(averageAblationY)
 
         # updating errors / missing ablations on plot
         errors.set_xdata(errorsX)
