@@ -25,12 +25,18 @@ def main():
     iPath = 'sampleIntegrations.csv'
     # ablations
     aPath = 'sampleAblations.csv'
+    
     # 11
     i_timeStampIndex = 0
     # 0
     i_voltageIndex = 1
     # 5
     a_vertexIndex = 0
+
+    # integrations file start row index
+    iStartRowIndex = 0
+    # ablations file start row index
+    aStartRowIndex = 0
 
 
 
@@ -54,6 +60,12 @@ def main():
         if (arg == '-vertexIndex'):
             a_vertexIndex = int(sys.argv[i + 1])
 
+        if (arg == '-iStartRowIndex'):
+            iStartRowIndex = int(sys.argv[i + 1])
+
+        if (arg == '-aStartRowIndex'):
+            aStartRowIndex = int(sys.argv[i + 1])
+
 
 
     # path verification
@@ -72,10 +84,12 @@ def main():
 
     print('PLOTTING:', iPath)
     with open(iPath, 'r') as openFile:
+        [ openFile.readline() for _ in range(iStartRowIndex) ]
         iDF = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
     
     print('PLOTTING:', aPath)
     with open(aPath, 'r') as openFile:
+        [ openFile.readline() for _ in range(aStartRowIndex) ]
         aDF = pd.read_csv(openFile, engine="pyarrow", header=None, delimiter=',')
     
 
