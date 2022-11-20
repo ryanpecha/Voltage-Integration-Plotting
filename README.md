@@ -6,7 +6,7 @@
 * All commands are listed for Powershell
 * All dependencies are listed @ `requirements.txt`
 * UI variation indicates you are missing PyQT5
-* Data must have more  and valid ablations than errors
+* Data must have more valid ablations than errors
 * All indices start at 0, including index based args
 * Start indices should not include column header data
 
