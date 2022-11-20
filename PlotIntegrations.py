@@ -77,6 +77,13 @@ def main():
     i_voltages = iDF.iloc[:,i_voltageIndex]
     a_vertices = aDF.iloc[:,a_vertexIndex]
 
+    # calculating the interval between integrations
+    integrationTimeStep = i_timeStamps[1] - i_timeStamps[0]
+    
+    # getting the expected number of ablation detections
+    expectedAblationCount = a_vertices.size
+
+
 
 
     # plotting the primary integration data    
@@ -94,9 +101,6 @@ def main():
     plt.ylabel(f'Voltage [ {i_voltages.min()} , {i_voltages.max()} ]')
     
     
-    
-    # calculating the interval between integrations
-    #timeStep = i_timeStamps[1] - i_timeStamps[0]
 
     # initializing and drawing the floor line 
     initialFloor = 0.20
@@ -108,15 +112,26 @@ def main():
 
     # initializing and drawing the ablation intersections
     ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablations')
-    anomalies, = plt.plot([], [], 'x', color='purple', markersize=10, label='Anomalies')
+    anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Anomalies')
+    errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Missing')
+    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Actual')
+
+    # ablation set method
     def setAblations(floor):
+
+        saddles = []
 
         ablationsX = []
         ablationsY = []
-        
+        ablationTimeIndices = []
+
         anomaliesX = []
         anomaliesY = []
         
+        errorsX = []
+        errorsY = []
+        errorsFlatY = []
+
         saddleSize = 0
         saddleIndex = 0
         
@@ -140,6 +155,10 @@ def main():
                 else:
                     ablationsX.append(i_timeStamps[saddleIndex])
                     ablationsY.append(i_voltages[saddleIndex])
+                    ablationTimeIndices.append(saddleIndex)
+                # getting index range of this saddle
+                saddles.append( (saddleIndex - saddleSize , saddleIndex) )
+                # resetting saddle size
                 saddleSize = 0
             
             # our saddle has grown
@@ -153,6 +172,60 @@ def main():
 
         anomalies.set_xdata(anomaliesX)
         anomalies.set_ydata(anomaliesY)
+
+        # calculating average and allowable step
+        ablationTimeStepAverage = (ablationsX[-1] - ablationsX[0]) / (len(ablationsX) - 1)
+        allowableTimeStep = ablationTimeStepAverage * 1.25
+        averageAblationY = 0
+        for y in ablationsY:
+            averageAblationY += y
+        averageAblationY /= len(ablationsY)
+
+        # calculating missing ablations
+        for i in range(0, len(ablationsX) - 1):
+            curTime = ablationsX[i]
+            nextTime = ablationsX[i + 1]
+            distance = nextTime - curTime
+            
+            # idnetifying errors following from current ablation
+            if (distance > allowableTimeStep):
+                missCount = int(distance / ablationTimeStepAverage)
+                timeIndex = ablationTimeIndices[i]
+                
+                # building errors following current ablation
+                for m in range(1,missCount+1):
+                    
+                    # adding error x
+                    errorTime = curTime + (ablationTimeStepAverage * m)
+                    errorsX.append(errorTime)
+                    
+                    # calculating actual error y value on plot
+                    while (i_timeStamps[timeIndex + 1] < errorTime):
+                        timeIndex += 1
+                    x1 = i_timeStamps[timeIndex]
+                    x2 = i_timeStamps[timeIndex + 1]
+                    y1 = i_voltages[timeIndex]
+                    y2 = i_voltages[timeIndex + 1]
+                    slope = (y2-y1) / (x2-x1)
+                    y = (slope * (errorTime - x1)) + y1
+                    
+                    # adding error y
+                    errorsY.append(y)
+                    errorsFlatY.append(averageAblationY)
+
+        # updating errors / missing ablations on plot
+        errors.set_xdata(errorsX)
+        errors.set_ydata(errorsY)
+        errorsFlat.set_xdata(errorsX)
+        errorsFlat.set_ydata(errorsFlatY)
+
+        # unkown trailing / preceding missing ablations
+        extraneousMissingCount = expectedAblationCount - len(errorsX) - len(ablationsX)
+        print("ABLATIONS > DETECTED:", len(ablationsX), "| EXPECTED:", expectedAblationCount, "| MISSING LOCATED:", len(errorsX), "| MISSING EXTRANEOUS:", extraneousMissingCount)
+        if (extraneousMissingCount > 0):
+            print(f"WARNING > {extraneousMissingCount} UNIDENTIFIABLE ABLATIONS")
+        if (extraneousMissingCount < 0):
+            print(f"WARNING > {extraneousMissingCount} MORE DETECTIONS THAN EXPECTED")
         
 
 
@@ -161,14 +234,7 @@ def main():
 
 
 
-    errors, = plt.plot([], [], 'x', color='red', markersize=10, label='Missing')
-
-    # need most common interval
-    # need an average interval
-    # need an allowable interval range
-
     # TODO add toggle button for include anomalies within ablations 
-    # TODO error checking based on integration intervals
     # TODO slider reset buttons
     # TODO add Voltge units
 
@@ -208,5 +274,3 @@ def main():
 # don't run on import
 if (__name__ == '__main__'):
     main()
-
-
