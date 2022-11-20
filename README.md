@@ -6,7 +6,7 @@
 * All commands are listed for Powershell
 * All dependencies are listed @ `requirements.txt`
 * UI variation indicates you are missing PyQT5
-* Data must have more valid ablations than errors
+* Data must have more  and valid ablations than errors
 * All indices start at 0, including index based args
 
 ### **Installing Dependencies**
@@ -31,7 +31,9 @@ python.exe .\Main.py
 | aPath          | sampleAblations.csv    | string         | -aPath myAblations.csv     |
 | timeStampIndex | 0                      | int            | -timeStampIndex 11         |
 | voltageIndex   | 1                      | int            | -voltageIndex 0            |
-| vertexIndex  | 0                      | int            | -vertexIndex 5           |
+| vertexIndex    | 0                      | int            | -vertexIndex 5             |
+| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         |
+| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         |
 
 ---
 
