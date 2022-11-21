@@ -242,7 +242,6 @@ def plot(
         # cannot locate missing ablations with only one detected ablation
         if (len(ablationsX) > 1):
 
-            #ablationTimeStepAverage = (ablationsX[-1] - ablationsX[0]) / (len(ablationsX) - 1)
             # calculating mode and allowable step
             timeSteps = {}
             for i in range(len(ablationsX) - 1):
@@ -259,6 +258,10 @@ def plot(
                 if (timeSteps[timeStep] > curAvgFreq):
                     curAvgFreq = timeSteps[timeStep]
                     ablationTimeStepMode = timeStep                
+
+            # backup mode using avg timeStep
+            if (curAvgFreq <= 1):
+                ablationTimeStepMode = (ablationsX[-1] - ablationsX[0]) / (len(ablationsX) - 1)
 
             allowableTimeStep = ablationTimeStepMode * 1.5
             averageAblationY = 0
