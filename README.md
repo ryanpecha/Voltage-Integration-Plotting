@@ -25,8 +25,9 @@ pip install -r .\requirements.txt
 
 ---
 
-## **Plotting Data - Easy**
+## **Plotting Data - Easy** 
 
+> Recommended for one time use\
 > Automatically prompts the user for necessary arguments
 
 ```cmd
@@ -37,6 +38,7 @@ python.exe .\EasyPlot.py
 
 ## **Plotting Data - Command Line**
 
+> Recommended for reusable scripting\
 > Requires the user to pass arguments via command line
 
 ```cmd
