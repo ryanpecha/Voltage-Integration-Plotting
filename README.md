@@ -31,7 +31,7 @@ python.exe .\EasyPlot.py
 
 ## **Plotting Data - Command Line**
 
-> Requires the user to pass desired command line arguments
+> Requires the user to pass arguments via command line
 
 ```cmd
 python.exe .\PlotIntegrations.py
