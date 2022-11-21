@@ -1,4 +1,4 @@
-matplotlib==3.5.1
+matplotlib==3.6.2
 pandas==1.5.1
 pyarrow==10.0.0
 PyQt5==5.15.7
