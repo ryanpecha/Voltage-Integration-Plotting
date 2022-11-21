@@ -1,5 +1,5 @@
 
-[![license](https://img.shields.io/github/license/ryanpecha/Voltage-Integration-Plotting)](https://github.com/ryanpecha/Voltage-Integration-Plotting/blob/main/LICENSE.txt)
+[![GitHub](https://img.shields.io/github/license/ryanpecha/Voltage-Integration-Plotting?color=blueviolet)](https://github.com/ryanpecha/Voltage-Integration-Plotting/blob/main/LICENSE.txt)
 
 # Voltage-Integration-Plotting
 
