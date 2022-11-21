@@ -3,12 +3,13 @@
 ## **Dependencies**
 
 * Python 3.10.8
+* Python must be installed with tkinter
 * All commands are listed for Powershell
 * All dependencies are listed @ `requirements.txt`
 * UI variation indicates you are missing PyQT5
 * Data must have more valid ablations than errors
 * All indices start at 0, including index based args
-* Start indices should not include column header data
+* Start indices must not include column header data
 
 ### **Installing Dependencies**
 
@@ -30,7 +31,7 @@ python.exe .\EasyPlot.py
 
 ## **Plotting Data - Command Line**
 
-> Requires the user to pass desired command line arguments
+> Requires the user to pass arguments via command line
 
 ```cmd
 python.exe .\PlotIntegrations.py
@@ -38,14 +39,14 @@ python.exe .\PlotIntegrations.py
 
 ## **Arguments - Data Plotting**
 
-| Arg Name       | Default Arg Value      | Arg Value Type | Example                    | Description                                               |
+| Arg Name       | Default Arg Value      | Arg Type | Example                    | Description                                               |
 | -------------- | ---------------------- | -------------- | -------------------------- | --------------------------------------------------------- |
-| iPath          | sampleIntegrations.csv | string         | -iPath myIntegrations.csv | Path to your voltage integrations csv file                |
-| aPath          | sampleAblations.csv    | string         | -aPath myAblations.csv     | Path to your ablations csv file                           |
-| iTimeStampIndex | 0                      | int            | -timeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
-| iVoltageIndex   | 1                      | int            | -voltageIndex 0            | Column index of your voltage values (iPath)              |
-| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your integrations csv data (iPath) |
-| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your ablations csv (aPath)         |
+| iPath          | sampleIntegrations.csv | string         | -iPath myInts.csv | Path to your voltage integrations csv file                |
+| aPath          | sampleAblations.csv    | string         | -aPath myAbls.csv     | Path to your ablations csv file                           |
+| iTimeStampIndex | 0                      | int            | -iTimeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
+| iVoltageIndex   | 1                      | int            | -iVoltageIndex 0            | Column index of your voltage values (iPath)              |
+| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your ints csv data (iPath) |
+| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your abls csv (aPath)         |
 
 ## **Run Example**
 
