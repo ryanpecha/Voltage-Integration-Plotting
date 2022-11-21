@@ -21,7 +21,7 @@ pip install -r .\requirements.txt
 ## **Plotting Data**
 
 ```cmd
-python.exe .\Main.py
+python.exe .\PlotIntegrations.py
 ```
 
 ### **Arguments - Data Plotting**
