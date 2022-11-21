@@ -43,10 +43,10 @@ python.exe .\PlotIntegrations.py
 | -------------- | ---------------------- | -------------- | -------------------------- | --------------------------------------------------------- |
 | iPath          | sampleIntegrations.csv | string         | -iPath myInts.csv | Path to your voltage integrations csv file                |
 | aPath          | sampleAblations.csv    | string         | -aPath myAbls.csv     | Path to your ablations csv file                           |
-| iTimeStampIndex | 0                      | int            | -iTimeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
-| iVoltageIndex   | 1                      | int            | -iVoltageIndex 0            | Column index of your voltage values (iPath)              |
-| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your ints csv data (iPath) |
-| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your abls csv (aPath)         |
+| iTimeStampIndex | 0                      | int            | -iTimeStampIndex 11         | Column index of your voltage timeStamps |
+| iVoltageIndex   | 1                      | int            | -iVoltageIndex 0            | Column index of your voltage values |
+| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your ints csv data |
+| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your abls csv data |
 
 ## **Run Example**
 
