@@ -20,8 +20,6 @@ def main():
     # ablations file start row index
     aStartRowIndex = 0
 
-
-
     # args
 
     for i in range(len(sys.argv)):
