@@ -25,7 +25,7 @@ pip install -r .\requirements.txt
 
 ---
 
-## **Plotting Data - Easy** 
+## **Plotting Data - Easy Wizard** 
 
 > Recommended for one time usage\
 > Automatically prompts the user for necessary arguments
