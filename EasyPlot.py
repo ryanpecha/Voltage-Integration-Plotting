@@ -1,15 +1,14 @@
 
 
 
-def main():
 
-    from PlotIntegrations import plot
-    from tkinter.filedialog import askopenfilename
+
+def managePackages():
+
+    # imports
     import subprocess
     import sys
-
-
-
+    
     # checking versions
     print("CHECKING PYTHON PACKAGES")
     versionCheck = subprocess.run(['py', '-m', 'pip', 'list'], shell=True, capture_output=True)
@@ -64,6 +63,16 @@ def main():
                     print(f'PROCEEDING WITH "{targetPackage[0]}" VERSION {currentPackage[1]}')
                     break
                 
+                # uninstalling current version
+                packageUnInstaller = subprocess.run(['py', '-m', 'pip', 'uninstall', targetPackage[0]], shell=True, stdout=sys.stdout)
+                try :
+                    packageUnInstaller.check_returncode()
+                    print(f"PASSED {targetPackage[0]} TARGET VERSION {targetPackage[1]} UNINSTALL WITH RETURN CODE : ", packageUnInstaller.returncode)
+                except:
+                    print(f"FAILED {targetPackage[0]} TARGET VERSION {targetPackage[1]} UNINSTALL WITH RETURN CODE : ", packageUnInstaller.returncode)
+                    print(packageUnInstaller.stderr)
+                    return
+
                 # installing target version
                 packageInstaller = subprocess.run(['py', '-m', 'pip', 'install', targetPackage[0] + '==' + targetPackage[1]], shell=True, stdout=sys.stdout)
                 try :
@@ -109,11 +118,30 @@ def main():
     print('SUCCESS! ALL PACKAGES INSTALLED')
 
 
+
+
+
+def main():
+
+    # imports
+    from PlotIntegrations import plot
+    from tkinter.filedialog import askopenfilename
+    from tkinter import Tk
+    
+    # bringing root to front
+    root = Tk()
+    root.attributes("-topmost", True)
+    root.withdraw()
+
+    # asking user if they want auto package management
+    if (input(f'AUTO MANAGE PACKAGES (Y/N) ? : ').lower() == 'y'):
+        # user opted to auto manage packages
+        managePackages()    
     
     # plotting data
     try:
         plot(
-            iPath=askopenfilename(title='SELECT iPath'),
+            iPath=askopenfilename(title='SELECT iPath',parent=root),
             aPath=askopenfilename(title='SELECT aPath'),
             iTimeStampIndex=int(input('ENTER iTimeStampIndex (INTEGER) (DEFAULT = 0) : ')),
             iVoltageIndex=int(input('ENTER iVoltageIndex (INTEGER) (DEFAULT = 1) : ')),
@@ -128,6 +156,6 @@ def main():
 
 
 
-
+# don't run on import
 if (__name__ == '__main__'):
     main()
