@@ -11,10 +11,10 @@
 * Python 3.10
 * tkinter must be installed
 * All commands are listed for Powershell
-* All dependencies are listed @ `requirements.txt`
 * UI variation indicates you are missing PyQT5
-* Data must have more valid ablations than errors
 * All indices start at 0, including index based args
+* Data must have more valid ablations than errors
+* All dependencies are listed @ `requirements.txt`
 * Start indices must not include column header data
 
 ### **Installing Dependencies**
