@@ -44,8 +44,8 @@ python.exe .\PlotIntegrations.py
 | aPath          | sampleAblations.csv    | string         | -aPath myAbls.csv     | Path to your ablations csv file                           |
 | iTimeStampIndex | 0                      | int            | -iTimeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
 | iVoltageIndex   | 1                      | int            | -iVoltageIndex 0            | Column index of your voltage values (iPath)              |
-| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your integrations csv data (iPath) |
-| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your ablations csv (aPath)         |
+| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your ints csv data (iPath) |
+| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your abls csv (aPath)         |
 
 ## **Run Example**
 
