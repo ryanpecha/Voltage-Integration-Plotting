@@ -27,7 +27,7 @@ pip install -r .\requirements.txt
 
 ## **Plotting Data - Easy** 
 
-> Recommended for one time use\
+> Recommended for one time usage\
 > Automatically prompts the user for necessary arguments
 
 ```cmd
