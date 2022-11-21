@@ -40,8 +40,8 @@ python.exe .\PlotIntegrations.py
 
 | Arg Name       | Default Arg Value      | Arg Value Type | Example                    | Description                                               |
 | -------------- | ---------------------- | -------------- | -------------------------- | --------------------------------------------------------- |
-| iPath          | sampleIntegrations.csv | string         | -iPath myIntegrations.csv | Path to your voltage integrations csv file                |
-| aPath          | sampleAblations.csv    | string         | -aPath myAblations.csv     | Path to your ablations csv file                           |
+| iPath          | sampleIntegrations.csv | string         | -iPath myInts.csv | Path to your voltage integrations csv file                |
+| aPath          | sampleAblations.csv    | string         | -aPath myAbls.csv     | Path to your ablations csv file                           |
 | iTimeStampIndex | 0                      | int            | -timeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
 | iVoltageIndex   | 1                      | int            | -voltageIndex 0            | Column index of your voltage values (iPath)              |
 | iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your integrations csv data (iPath) |
