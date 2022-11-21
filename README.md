@@ -14,7 +14,7 @@
 * UI variation indicates you are missing PyQT5
 * All indices start at 0, including index based args
 * Data must have more valid ablations than errors
-* All dependencies are listed @ `requirements.txt`
+* All dependencies are listed @ [`requirements.txt`](./requirements.txt)
 * Start indices must not include column header data
 
 ### **Installing Dependencies**
