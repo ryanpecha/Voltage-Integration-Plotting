@@ -7,16 +7,16 @@
 
 ## **Dependencies**
 
-* `Python 3.10`
-* `pip` must be installed
-* `tkinter` must be installed
+* `pip` _**must**_ be installed
+* `tkinter` _**must**_ be installed
+* `Python 3.10` recommended
 * All commands are listed for `Powershell`
 * UI variation indicates you are missing `PyQT5`
+* Valid ablations _**must**_ have consistent spacing
 * Data _**must**_ have more valid ablations than errors
 * All dependencies are listed @ [`requirements.txt`](./requirements.txt)
 * All indices start at `0`, including index based args
 * Start indices must _**not**_ include column header data
-* Valid ablations _**must**_ have consistent spacing
 
 ### **Installing Dependencies**
 
