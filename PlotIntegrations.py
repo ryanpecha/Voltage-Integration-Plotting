@@ -100,7 +100,7 @@ def main():
     a_vertices = aDF.iloc[:,a_vertexIndex]
 
     # calculating the interval between integrations
-    integrationTimeStep = i_timeStamps[1] - i_timeStamps[0]
+    #integrationTimeStep = i_timeStamps[1] - i_timeStamps[0]
     
     # getting the expected number of ablation detections
     expectedAblationCount = a_vertices.size
@@ -127,18 +127,21 @@ def main():
     initialFloor = 0.20
     floorX = [i_timeStamps.min(),i_timeStamps.max()]
     floorY = [initialFloor,initialFloor]
-    floorLine, = plt.plot(floorX, floorY, color = 'purple', linewidth=1, linestyle='dashed', label='Floor')
+    floorLine, = plt.plot(floorX, floorY, color = 'purple', linewidth=1, linestyle='dashed', label=f'Floor : {initialFloor}')
 
     
 
     # initializing and drawing the ablation intersections
-    ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Ablation')
-    anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Anomaly')
-    errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Missing')
-    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Intersect')
-    plt.plot([],[],'o', color='black',label='Unidentified : 0', markersize=0)
+    plt.plot([],[],'o', color='black', markersize=0, label=f'Expected Ablations : {expectedAblationCount}')
+    ablations, = plt.plot([], [], 'x', color='green', markersize=5, label='Detected Ablations : ')
+    anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Detected Anomalies : ')
+    errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Detected Missing : ')
+    errors, = plt.plot([], [], '+', color='red', markersize=5, label='Detected Miss Intersect')
+    plt.plot([],[],'o', color='black', markersize=0, label=f'Unidentified : ')
     
-    # text attributes
+
+
+    # plot text attributes
     alignments = ('top','bottom')
     shade1 = 0.00
     shade2 = 0.20
@@ -373,8 +376,12 @@ def main():
                 )
             )
         
-        # updating the unidentified field of the legend
+        # updating the value fields of the legend
+        legend.get_texts()[-5].set_text(f'Detected Ablations :  : {len(ablationsX)}')
+        legend.get_texts()[-4].set_text(f'Detected Anomalies : {len(anomaliesX)}')
+        legend.get_texts()[-3].set_text(f'Detected Missing : {len(errorsX)}')
         legend.get_texts()[-1].set_text(f'Unidentified : {extraneousMissingCount}')
+        legend.get_texts()[1].set_text(f'Floor : {round(floor,3)}')
 
 
 
