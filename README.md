@@ -3,7 +3,7 @@
 [![GitHub](https://img.shields.io/github/license/ryanpecha/Voltage-Integration-Plotting?color=blueviolet)](https://github.com/ryanpecha/Voltage-Integration-Plotting/blob/main/LICENSE.txt)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ryanpecha/Voltage-Integration-Plotting)
 ![GitHub repo file count](https://img.shields.io/github/directory-file-count/ryanpecha/Voltage-Integration-Plotting)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/matplotlib)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/matplotlib/3.6.2)
 
 ## **Dependencies**
 
