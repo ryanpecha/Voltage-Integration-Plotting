@@ -18,28 +18,39 @@ pip install -r .\requirements.txt
 
 ---
 
-## **Plotting Data**
+## **Plotting Data - Easy**
+
+> Automatically prompts the user for necessary arguments
+
+```cmd
+python.exe .\EasyPlot.py
+```
+
+---
+
+## **Plotting Data - Command Line**
+
+> Requires the user to pass desired command line arguments
 
 ```cmd
 python.exe .\PlotIntegrations.py
 ```
 
-### **Arguments - Data Plotting**
+## **Arguments - Data Plotting**
 
 | Arg Name       | Default Arg Value      | Arg Value Type | Example                    | Description                                               |
 | -------------- | ---------------------- | -------------- | -------------------------- | --------------------------------------------------------- |
 | iPath          | sampleIntegrations.csv | string         | -iPath myIntegrations.csv | Path to your voltage integrations csv file                |
 | aPath          | sampleAblations.csv    | string         | -aPath myAblations.csv     | Path to your ablations csv file                           |
-| timeStampIndex | 0                      | int            | -timeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
-| voltageIndex   | 1                      | int            | -voltageIndex 0            | Column index of your voltage values (iPath)              |
-| vertexIndex    | 0                      | int            | -vertexIndex 5             | Column index of your ablation vertices (aPath)            |
+| iTimeStampIndex | 0                      | int            | -timeStampIndex 11         | Column index of your voltage timeStamps (iPath)           |
+| iVoltageIndex   | 1                      | int            | -voltageIndex 0            | Column index of your voltage values (iPath)              |
 | iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your integrations csv data (iPath) |
 | aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your ablations csv (aPath)         |
 
-## **Output Example**
+## **Run Example**
 
 ```cmd
-python.exe .\PlotIntegrations.py -timeStampIndex 11 -voltageIndex 1 -vertexIndex 5
+python.exe .\PlotIntegrations.py -iTimeStampIndex 11 -iVoltageIndex 1
 ```
 
 **YIELDS:**

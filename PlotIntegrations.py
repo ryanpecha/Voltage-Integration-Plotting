@@ -1,23 +1,7 @@
 
-
-
 def main():
     
-    # imports
-    from matplotlib.widgets import Slider
-    import matplotlib.pyplot as plt
-    import pandas as pd
     import sys
-    import os
-
-    # setting PyQT5 backend
-    try :
-        import matplotlib
-        matplotlib.use('qtagg')
-    except :
-        print("COULD NOT SET QT BACKEND")
-
-
 
     # defaults
 
@@ -27,11 +11,9 @@ def main():
     aPath = 'sampleAblations.csv'
     
     # 11
-    i_timeStampIndex = 0
+    iTimeStampIndex = 0
     # 0
-    i_voltageIndex = 1
-    # 5
-    a_vertexIndex = 0
+    iVoltageIndex = 1
 
     # integrations file start row index
     iStartRowIndex = 0
@@ -51,20 +33,52 @@ def main():
         if (arg == '-aPath'):
             aPath = sys.argv[i + 1]
         
-        if (arg == '-timeStampIndex'):
-            i_timeStampIndex = int(sys.argv[i + 1])
+        if (arg == '-iTimeStampIndex'):
+            iTimeStampIndex = int(sys.argv[i + 1])
         
-        if (arg == '-voltageIndex'):
-            i_voltageIndex = int(sys.argv[i + 1])
-        
-        if (arg == '-vertexIndex'):
-            a_vertexIndex = int(sys.argv[i + 1])
+        if (arg == '-iVoltageIndex'):
+            iVoltageIndex = int(sys.argv[i + 1])
 
         if (arg == '-iStartRowIndex'):
             iStartRowIndex = int(sys.argv[i + 1])
 
         if (arg == '-aStartRowIndex'):
             aStartRowIndex = int(sys.argv[i + 1])
+    
+    plot(
+        iPath=iPath,
+        aPath=aPath,
+        iTimeStampIndex=iTimeStampIndex,
+        iVoltageIndex=iVoltageIndex,
+        iStartRowIndex=iStartRowIndex,
+        aStartRowIndex=aStartRowIndex
+    )
+
+
+
+
+
+def plot(
+    iPath, 
+    aPath, 
+    iTimeStampIndex,
+    iVoltageIndex,
+    iStartRowIndex,
+    aStartRowIndex
+    ):
+    
+    # imports
+    from matplotlib.widgets import Slider
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import os
+
+    # setting PyQT5 backend
+    try :
+        import matplotlib
+        matplotlib.use('qtagg')
+    except :
+        print("COULD NOT SET QT BACKEND")
 
 
 
@@ -95,15 +109,15 @@ def main():
 
 
     # dataframe to column/list
-    i_timeStamps = iDF.iloc[:,i_timeStampIndex]
-    i_voltages = iDF.iloc[:,i_voltageIndex]
-    a_vertices = aDF.iloc[:,a_vertexIndex]
+    i_timeStamps = iDF.iloc[:,iTimeStampIndex]
+    i_voltages = iDF.iloc[:,iVoltageIndex]
+    a_col1 = aDF.iloc[:,0]
 
     # calculating the interval between integrations
     #integrationTimeStep = i_timeStamps[1] - i_timeStamps[0]
     
     # getting the expected number of ablation detections
-    expectedAblationCount = a_vertices.size
+    expectedAblationCount = a_col1.size
 
 
 
@@ -387,7 +401,6 @@ def main():
 
     # initial ablation set
     setAblations(initialFloor, [])
-
 
     # axis for positioning the floor slider
     left = 0.125
