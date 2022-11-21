@@ -8,14 +8,14 @@
 
 ## **Dependencies**
 
-* Python 3.10
-* tkinter must be installed
-* All commands are listed for Powershell
-* UI variation indicates you are missing PyQT5
-* All indices start at 0, including index based args
-* Data must have more valid ablations than errors
+* `Python 3.10`
+* `tkinter` must be installed
+* All commands are listed for `Powershell`
+* UI variation indicates you are missing `PyQT5`
+* All indices start at `0`, including index based args
+* Data _**must**_ have more valid ablations than errors
 * All dependencies are listed @ [`requirements.txt`](./requirements.txt)
-* Start indices must not include column header data
+* Start indices must _**not**_ include column header data
 
 ### **Installing Dependencies**
 
