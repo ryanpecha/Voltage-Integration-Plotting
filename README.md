@@ -9,6 +9,7 @@
 
 * `Python 3.10`
 * `tkinter` must be installed
+* `pip` must be installed
 * All commands are listed for `Powershell`
 * UI variation indicates you are missing `PyQT5`
 * All indices start at `0`, including index based args
