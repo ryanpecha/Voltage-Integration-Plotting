@@ -137,10 +137,23 @@ def main():
     errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Missing')
     errors, = plt.plot([], [], '+', color='red', markersize=5, label='Intersect')
 
-    # ablation set method
-    def setAblations(floor):
+    class RefreshInstance: pass
+    newestRefreshInstance = [None]
+    alignments = ('top','bottom')
+    shade1 = 0.00
+    shade2 = 0.20
+    colors = ((shade1,shade1,shade1),(shade2,shade2,shade2))
+    styles = ('normal','italic')
+    sizes = (7,8)
 
-        saddles = []
+    # ablation set method
+    def setAblations(floor, textList):
+        
+        # a newer refresh has been initiated
+        myRefreshInstance = RefreshInstance()
+        newestRefreshInstance[0] = myRefreshInstance
+
+        # value initialization
 
         ablationsX = []
         ablationsY = []
@@ -156,8 +169,16 @@ def main():
         saddleSize = 0
         saddleIndex = 0
         
+        # checking refreshInstance
+        if (newestRefreshInstance[0] != myRefreshInstance): return
+
         # iterating over integrations
         for i in range(1,i_timeStamps.size - 1):
+
+            # checking refreshInstance
+            if (newestRefreshInstance[0] != myRefreshInstance): return
+
+            # grabbing current voltage
             voltage = i_voltages[i]
             
             # ignoring above the floor
@@ -177,16 +198,16 @@ def main():
                     ablationsX.append(i_timeStamps[saddleIndex])
                     ablationsY.append(i_voltages[saddleIndex])
                     ablationTimeIndices.append(saddleIndex)
-                    #plt.text(x = i_timeStamps[saddleIndex], y = i_voltages[saddleIndex], s = str(len(ablationsX)), fontsize=10)
-                # getting index range of this saddle
-                saddles.append( (saddleIndex - saddleSize , saddleIndex) )
                 # resetting saddle size
                 saddleSize = 0
             
             # our saddle has grown
             else:
                 saddleSize += 1
-        
+
+        # checking refreshInstance
+        if (newestRefreshInstance[0] != myRefreshInstance): return
+
         # updating plot
         
         ablations.set_xdata(ablationsX)
@@ -194,6 +215,9 @@ def main():
 
         anomalies.set_xdata(anomaliesX)
         anomalies.set_ydata(anomaliesY)            
+
+        # checking refreshInstance
+        if (newestRefreshInstance[0] != myRefreshInstance): return
 
         # cannot locate missing ablations with only one detected ablation
         if (len(ablationsX) > 1):
@@ -216,7 +240,7 @@ def main():
                     curAvgFreq = timeSteps[timeStep]
                     ablationTimeStepMode = timeStep                
 
-            allowableTimeStep = ablationTimeStepMode * 1.25
+            allowableTimeStep = ablationTimeStepMode * 1.5
             averageAblationY = 0
             for y in ablationsY:
                 averageAblationY += y
@@ -224,11 +248,16 @@ def main():
 
             # calculating missing ablations
             for i in range(0, len(ablationsX) - 1):
+
+                # checking refreshInstance
+                if (newestRefreshInstance[0] != myRefreshInstance): return
+
+                # grabbing current values from detected ablations
                 curTime = ablationsX[i]
                 nextTime = ablationsX[i + 1]
                 distance = nextTime - curTime
                 
-                # idnetifying errors following from current ablation
+                # identifying errors following from current ablation
                 if (distance > allowableTimeStep):
                     missCount = int(distance / ablationTimeStepMode)
                     timeIndex = ablationTimeIndices[i]
@@ -253,13 +282,65 @@ def main():
                         # adding error y
                         errorsY.append(y)
                         errorsFlatY.append(averageAblationY)
-                        #text = plt.text(x = errorTime, y = averageAblationY, s = str(len(errorsY)), fontsize=10, color='red', verticalalignment='top')
+
+        # checking refreshInstance
+        if (newestRefreshInstance[0] != myRefreshInstance): return
 
         # updating errors / missing ablations on plot
         errors.set_xdata(errorsX)
         errors.set_ydata(errorsY)
         errorsFlat.set_xdata(errorsX)
         errorsFlat.set_ydata(errorsFlatY)
+
+        # checking refreshInstance
+        if (newestRefreshInstance[0] != myRefreshInstance): return
+
+        # generating coordinate index text
+        
+        [indexText.remove() for indexText in textList]
+        textList.clear()
+        allX = sorted(ablationsX + errorsX)
+
+        # checking refreshInstance
+        if (newestRefreshInstance[0] != myRefreshInstance): return
+
+        # ablations
+        for i in range(len(ablationsX)):
+            x = ablationsX[i]
+            y = ablationsY[i]
+            globalIndex = allX.index(x)
+            textList.append(
+                plt.text(
+                    x = x,
+                    y = y,
+                    s = str(globalIndex),
+                    fontsize = sizes[ (globalIndex % 4) > 1 ],
+                    color = colors[ (globalIndex % 4) > 1 ],
+                    verticalalignment = alignments[globalIndex % 2],
+                    fontfamily = 'monospace',
+                    fontstyle = styles[ (globalIndex % 4) > 1 ],
+                    alpha=0.75
+                )
+            )
+        
+        # errors / missing
+        for i in range(len(errorsX)):
+            x = errorsX[i]
+            y = errorsFlatY[i]
+            globalIndex = allX.index(x)
+            textList.append(
+                plt.text(
+                    x = x,
+                    y = y,
+                    s = str(globalIndex),
+                    fontsize = sizes[ (globalIndex % 4) > 1 ],
+                    color = colors[ (globalIndex % 4) > 1 ],
+                    verticalalignment = alignments[globalIndex % 2],
+                    fontfamily = 'monospace',
+                    fontstyle = styles[ (globalIndex % 4) > 1 ],
+                    alpha=0.75
+                )
+            )
 
         # unkown trailing / preceding missing ablations
         extraneousMissingCount = expectedAblationCount - len(errorsX) - len(ablationsX)
@@ -272,7 +353,7 @@ def main():
 
 
     # initial ablation set
-    setAblations(initialFloor)
+    setAblations(initialFloor, [])
 
 
 
@@ -292,10 +373,13 @@ def main():
     minFloor = i_voltages.min() - floorIncrement
     maxFloor = i_voltages.max() + floorIncrement
     floorSlider = Slider(ax=floorAxis, label='Floor', valmin=minFloor, valmax=maxFloor, valinit=initialFloor, valstep=floorIncrement, track_color=(axShade,axShade,axShade))
+    
+    # plot updating
+    plotText = []
     def updateFloor(val):
         # drawing the floor and ablations
         floorLine.set_ydata([val,val])
-        setAblations(val)
+        setAblations(floor=val, textList=plotText)
     floorSlider.on_changed(updateFloor)
 
     
