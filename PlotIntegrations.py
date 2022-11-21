@@ -76,18 +76,18 @@ def plot(
         import matplotlib
         matplotlib.use('qtagg')
     except :
-        print("COULD NOT SET QT BACKEND")
+        print("WARNING, COULD NOT SET QT BACKEND")
 
 
 
     # path verification
 
     if (not os.path.exists(iPath)):
-        print("NO SUCH INTEGRATIONS FILE EXISTS:", iPath)
+        print(f'ERROR, NO SUCH INTEGRATIONS FILE EXISTS: "{iPath}"')
         return
     
     if (not os.path.exists(aPath)):
-        print("NO SUCH ABLATIONS FILE EXISTS:", aPath)
+        print(f'ERROR, NO SUCH ABLATIONS FILE EXISTS: "{aPath}"')
         return
 
 
