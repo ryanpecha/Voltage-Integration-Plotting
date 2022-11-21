@@ -39,14 +39,14 @@ python.exe .\PlotIntegrations.py
 
 ## **Arguments - Data Plotting**
 
-| Arg Name       | Default Arg Value      | Arg Type | Example                    | Description                                               |
-| -------------- | ---------------------- | -------------- | -------------------------- | --------------------------------------------------------- |
-| iPath          | sampleIntegrations.csv | string         | -iPath myInts.csv | Path to your voltage integrations csv file                |
-| aPath          | sampleAblations.csv    | string         | -aPath myAbls.csv     | Path to your ablations csv file                           |
-| iTimeStampIndex | 0                      | int            | -iTimeStampIndex 11         | Column index of your voltage timeStamps |
-| iVoltageIndex   | 1                      | int            | -iVoltageIndex 0            | Column index of your voltage values |
-| iStartRowIndex | 0                      | int            | -iStartRowIndex 20         | Starting row index of your ints csv data |
-| aStartRowIndex | 0                      | int            | -aStartRowIndex 20         | Starting row index of your abls csv data |
+| Arg Name       | Default Arg Value | Example                    | Description                                               |
+| -------------- | ---------------------- | -------------------------- | --------------------------------------------------------- |
+| iPath *string*         | sampleIntegrations.csv | -iPath myInts.csv | Path to your voltage integrations csv file                |
+| aPath *string*         | sampleAblations.csv | -aPath myAbls.csv     | Path to your ablations csv file                           |
+| iTimeStampIndex *int* | 0 | -iTimeStampIndex 11         | Column index of your voltage timeStamps |
+| iVoltageIndex *int*   | 1 | -iVoltageIndex 0            | Column index of your voltage values |
+| iStartRowIndex *int* | 0 | -iStartRowIndex 20         | Starting row index of your ints csv data |
+| aStartRowIndex *int* | 0  | -aStartRowIndex 20         | Starting row index of your abls csv data |
 
 ## **Run Example**
 
