@@ -39,7 +39,7 @@ python.exe .\PlotIntegrations.py
 
 ## **Arguments - Data Plotting**
 
-| Arg Name       | Default Arg Value | Example                    | Description                                               |
+| Argument       | Default Value | Example                    | Description                                               |
 | -------------- | ---------------------- | -------------------------- | --------------------------------------------------------- |
 | iPath *string*         | sampleIntegrations.csv | -iPath myInts.csv | Path to your voltage integrations csv file                |
 | aPath *string*         | sampleAblations.csv | -aPath myAbls.csv     | Path to your ablations csv file                           |
