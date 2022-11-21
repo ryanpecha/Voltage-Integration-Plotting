@@ -3,6 +3,7 @@
 ## **Dependencies**
 
 * Python 3.10.8
+* Python must be installed with tkinter
 * All commands are listed for Powershell
 * All dependencies are listed @ `requirements.txt`
 * UI variation indicates you are missing PyQT5
