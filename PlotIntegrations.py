@@ -377,7 +377,7 @@ def main():
             )
         
         # updating the value fields of the legend
-        legend.get_texts()[-5].set_text(f'Detected Ablations :  : {len(ablationsX)}')
+        legend.get_texts()[-5].set_text(f'Detected Ablations : {len(ablationsX)}')
         legend.get_texts()[-4].set_text(f'Detected Anomalies : {len(anomaliesX)}')
         legend.get_texts()[-3].set_text(f'Detected Missing : {len(errorsX)}')
         legend.get_texts()[-1].set_text(f'Unidentified : {extraneousMissingCount}')
