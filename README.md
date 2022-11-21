@@ -41,6 +41,7 @@ python.exe .\EasyPlot.py
 ## **Plotting Data - Command Line**
 
 * Recommended for reusable scripting
+* Requires the user to install dependencies
 * Requires the user to pass arguments via command line
 
 ```cmd
