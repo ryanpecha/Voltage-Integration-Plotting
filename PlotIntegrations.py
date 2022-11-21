@@ -136,9 +136,9 @@ def main():
     anomalies, = plt.plot([], [], 'x', color='purple', markersize=5, label='Anomaly')
     errorsFlat, = plt.plot([], [], 'x', color='red', markersize=5, label='Missing')
     errors, = plt.plot([], [], '+', color='red', markersize=5, label='Intersect')
-
-    class RefreshInstance: pass
-    newestRefreshInstance = [None]
+    plt.plot([],[],'o', color='black',label='Unidentified : 0', markersize=0)
+    
+    # text attributes
     alignments = ('top','bottom')
     shade1 = 0.00
     shade2 = 0.20
@@ -146,7 +146,12 @@ def main():
     styles = ('normal','italic')
     sizes = (7,8)
 
-    # ablation set method
+    # legend reference
+    legend = plt.legend(facecolor=(figShade,figShade,figShade))
+
+    # ablation set method with newest instance tracking
+    class RefreshInstance: pass
+    newestRefreshInstance = [None]
     def setAblations(floor, textList):
         
         # a newer refresh has been initiated
@@ -350,15 +355,31 @@ def main():
         if (extraneousMissingCount < 0):
             print(f"WARNING > {abs(extraneousMissingCount)} MORE DETECTIONS THAN EXPECTED ABLATIONS")
         
+        # unidentified point labeling
+        if (extraneousMissingCount > 0):
+            x = allX[-1] + (ablationTimeStepMode * 8)
+            y = averageAblationY
+            textList.append(
+                plt.text(
+                    x = x,
+                    y = y,
+                    s = f'{extraneousMissingCount} UNIDENTIFIED',
+                    fontsize = 8,
+                    color = 'red',
+                    verticalalignment = 'bottom',
+                    fontfamily = 'monospace',
+                    fontstyle = 'normal',
+                    alpha=1
+                )
+            )
+        
+        # updating the unidentified field of the legend
+        legend.get_texts()[-1].set_text(f'Unidentified : {extraneousMissingCount}')
+
 
 
     # initial ablation set
     setAblations(initialFloor, [])
-
-
-
-    plt.legend(facecolor=(figShade,figShade,figShade))
-
 
 
     # axis for positioning the floor slider
