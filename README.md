@@ -50,14 +50,14 @@ python.exe .\PlotIntegrations.py
 
 ## **Arguments - Data Plotting**
 
-| Argument       | Default Value | Example                    | Description                                               |
-| -------------- | ---------------------- | -------------------------- | --------------------------------------------------------- |
+| Argument               | Default Value          | Example                    | Description                                               |
+| ---------------------- | ---------------------- | -------------------------- | --------------------------------------------------------- |
 | iPath _string_         | sampleIntegrations.csv | -iPath myInts.csv | Path to your voltage integrations csv file                |
-| aPath _string_         | sampleAblations.csv | -aPath myAbls.csv     | Path to your ablations csv file                           |
-| iTimeStampIndex _int_ | 0 | -iTimeStampIndex 11         | Column index of your voltage timeStamps |
-| iVoltageIndex _int_   | 1 | -iVoltageIndex 0            | Column index of your voltage values |
-| iStartRowIndex _int_ | 0 | -iStartRowIndex 20         | Starting row index of your integration csv data |
-| aStartRowIndex _int_ | 0  | -aStartRowIndex 20         | Starting row index of your ablation csv data |
+| aPath _string_         | sampleAblations.csv    | -aPath myAbls.csv     | Path to your ablations csv file                           |
+| iTimeStampIndex _int_  | 0                      | -iTimeStampIndex 11         | Column index of your voltage timeStamps |
+| iVoltageIndex _int_    | 1 | -iVoltageIndex 0            | Column index of your voltage values |
+| iStartRowIndex _int_   | 0 | -iStartRowIndex 20         | Starting row index of your integration csv data |
+| aStartRowIndex _int_   | 0  | -aStartRowIndex 20         | Starting row index of your ablation csv data |
 
 ## **Run Example**
 
@@ -72,3 +72,9 @@ python.exe .\PlotIntegrations.py -iTimeStampIndex 11 -iVoltageIndex 1
 **ZOOMED:**
 
 ![Plot of Generated Sample Data](./Figure_2.png "Plot of Existing Sample Data - ZOOMED")
+
+---
+
+# **Citation**
+
+> Pecha, R. A. (*versionYear*, *versionMonth* *versionDay*). Voltage-Integration-PlottingVersion (*versionNumber*). Retrieved *retrieveMonth* *retrieveDay*, *retrieveYear*, from https://github.com/ryanpecha/Voltage-Integration-Plotting. 
