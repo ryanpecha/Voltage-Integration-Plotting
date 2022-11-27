@@ -142,7 +142,7 @@ def main():
     try:
         plot(
             iPath=askopenfilename(title='SELECT iPath',parent=root),
-            aPath=askopenfilename(title='SELECT aPath'),
+            aPath=askopenfilename(title='SELECT aPath',parent=root),
             iTimeStampIndex=int(input('ENTER iTimeStampIndex (INTEGER) (DEFAULT = 0) : ')),
             iVoltageIndex=int(input('ENTER iVoltageIndex (INTEGER) (DEFAULT = 1) : ')),
             iStartRowIndex=int(input('ENTER iStartRowIndex (INTEGER) (DEFAULT = 0) : ')),
