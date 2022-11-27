@@ -77,4 +77,4 @@ python.exe .\PlotIntegrations.py -iTimeStampIndex 11 -iVoltageIndex 1
 
 ## **Citation Format**
 
-> Pecha, R. A. (***versionYear***, ***versionMonth*** ***versionDay***). Voltage-Integration-PlottingVersion (***version***). Retrieved ***retrieveMonth*** ***retrieveDay***, ***retrieveYear***, from https://github.com/ryanpecha/Voltage-Integration-Plotting. 
+> Pecha, R. A. (***versionYear***, ***versionMonth*** ***versionDay***). Voltage-Integration-Plotting Version (***version***). Retrieved ***retrieveMonth*** ***retrieveDay***, ***retrieveYear***, from https://github.com/ryanpecha/Voltage-Integration-Plotting. 
