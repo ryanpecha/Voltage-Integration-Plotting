@@ -10,7 +10,7 @@
 * `pip` _**must**_ be installed
 * `tkinter` _**must**_ be installed
 * `Python 3.10` recommended
-* `Powershell` commands listed below 
+* `Powershell` commands listed below
 * UI variation indicates you are missing `PyQT5`
 * Valid ablations _**must**_ have consistent spacing
 * Data _**must**_ have more valid ablations than errors
