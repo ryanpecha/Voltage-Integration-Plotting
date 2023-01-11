@@ -52,5 +52,3 @@ class GUI():
             matplotlib.use('qtagg')
         except :
             print("WARNING, COULD NOT SET QT BACKEND")
-
-    
