@@ -2,7 +2,7 @@
 from components.Theme import *
 class GUI():
     '''
-
+        Single GU
     '''
     
 
