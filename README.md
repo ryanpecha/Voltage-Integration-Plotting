@@ -7,21 +7,19 @@
 
 ## **Dependencies**
 
-* `pip` _**must**_ be installed
-* `tkinter` _**must**_ be installed
-* `Python 3.10` recommended
-* `Powershell` commands listed below
-* UI variation indicates you are missing `PyQT5`
-* Valid ablations _**must**_ have consistent spacing
-* Data _**must**_ have more valid ablations than errors
-* All dependencies are listed @ [`requirements.txt`](./requirements.txt)
+* `PyQT5` or `tkinter` for matplotlib backend
+* Ablations must have consistent spacing
+* Data must have more valid ablations than errors
+* All pip dependencies are listed @ [`requirements.txt`](./requirements.txt)
 * All indices start at `0`, including index based args
 * Start indices must _**not**_ include column header data
 
-### **Installing Dependencies**
+### **Installation**
 
 ```cmd
-pip install -r .\requirements.txt
+git clone https://github.com/ryanpecha/Voltage-Integration-Plotting.git
+cd .\Voltage-Integration-Plotting\
+python -m pip install -r .\requirements.txt
 ```
 
 ---
