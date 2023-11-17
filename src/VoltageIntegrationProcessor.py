@@ -14,11 +14,8 @@ def main():
     # hide running terminal
     if "--hideTerminal" in sys.argv:
         sys.argv.remove("--hideTerminal")
-        print(f"platform={platform.system()}")
-        # only supported for windows
-        if platform.system() == "Windows":
-            fgID: int = win32.win32gui.GetForegroundWindow()
-            win32.win32gui.ShowWindow(fgID, win32.lib.win32con.SW_HIDE)
+        fgID: int = win32.win32gui.GetForegroundWindow()
+        win32.win32gui.ShowWindow(fgID, win32.lib.win32con.SW_HIDE)
 
     # bringing root to front and get ref for file dialogs
     root = Tk()
