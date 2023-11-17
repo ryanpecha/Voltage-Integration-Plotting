@@ -32,7 +32,11 @@ def main():
     gui = VIPGUI(root)
     if len(sys.argv) > 1:
         fpath = sys.argv[1]
-        if CSVProcessing.isValidRunFile(fpath):
+        if not os.path.exists(fpath):
+            pass
+        if os.path.isdir(fpath):
+            pass
+        elif CSVProcessing.isValidRunFile(fpath):
             gui.setRunFile(fpath)
         elif CSVProcessing.isValidTargetFile(fpath):
             gui.setTargetFile(fpath)
