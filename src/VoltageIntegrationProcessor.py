@@ -1,44 +1,44 @@
-import os
-import sys
-import platform
-import matplotlib
-import pandas as pd
-import win32.win32gui
-from tkinter import Tk
-import win32.lib.win32con
-from CVIPGUI import VIPGUI
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider
-from tkinter.filedialog import askopenfilename
-
-
 def main():
     """ """
 
+    import os
+    import sys
+    import platform
+    import matplotlib
+    import win32.win32gui
+    from tkinter import Tk
+    import win32.lib.win32con
+    from CVIPGUI import VIPGUI
+    from CCSVProcessing import CSVProcessing
+
     # hide running terminal
     if "--hideTerminal" in sys.argv:
+        #sys.argv.remove("--hideTerminal")
+        print(f"platform={platform.system()}")
         # only supported for windows
-        if platform.system() == "windows":
+        if platform.system() == "Windows":
             fgID: int = win32.win32gui.GetForegroundWindow()
             win32.win32gui.ShowWindow(fgID, win32.lib.win32con.SW_HIDE)
 
-    # hide running terminal
-    if "--clearTerminal" in sys.argv:
-        os.system("cls||clear")
-
-    # bringing root to front
+    # bringing root to front and get ref for file dialogs
     root = Tk()
     root.attributes("-topmost", True)
     root.withdraw()
 
-    # setting PyQT5 backend
+    # setting PyQT5 backend, default is tkinter
     try:
         matplotlib.use("qtagg")
     except:
         print("WARNING : COULD NOT SET QT BACKEND FOR MATPLOTLIB")
 
-    # launching gui
+    # setup and launch matplotlib gui
     gui = VIPGUI(root)
+    if len(sys.argv) > 1:
+        fpath = sys.argv[1]
+        if CSVProcessing.isValidRunFile(fpath):
+            gui.setRunFile(fpath)
+        elif CSVProcessing.isValidTargetFile(fpath):
+            gui.setTargetFile(fpath)
     gui.launch()
 
 

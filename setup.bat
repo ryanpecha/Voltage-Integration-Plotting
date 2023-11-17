@@ -4,7 +4,7 @@ python3.11 -m pip install -r "./requirements.txt"
 :: adding "Open with VIP" command to file explorer
 set regKey="HKEY_CLASSES_ROOT\*\shell\Open with VIP"
 reg add %regKey%
-reg add %regKey%\command /t REG_SZ /d %0"\..\voltageIntegrationPlotter.bat"
+reg add %regKey%\command /t REG_EXPAND_SZ /d "%0\..\voltageIntegrationPlotter.bat %%1"
 :: TODO - icon reg key
 :: adding shortcut to start menu
 :: TODO - add to start menu
