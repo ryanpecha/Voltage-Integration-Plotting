@@ -1,5 +1,6 @@
 import os
 import sys
+import ctypes
 import platform
 import matplotlib
 import pandas as pd
@@ -117,7 +118,7 @@ class VIPGUI:
         pltFloorAxis = pyplot.axes([left, bottom, width, height])
         self.buttonSelectRunFile = Button(
             ax=pltFloorAxis,
-            label="Run File",
+            label="Run File\n(SELECT)",
         )
         self.buttonSelectRunFile.on_clicked(self.userSelectRunFile)
 
@@ -129,47 +130,63 @@ class VIPGUI:
         pltFloorAxis = pyplot.axes([left, bottom, width, height])
         self.buttonSelectTargetFile = Button(
             ax=pltFloorAxis,
-            label="Target File",
+            label="Target File\n(SELECT)",
         )
         self.buttonSelectTargetFile.on_clicked(self.userSelectTargetFile)
 
     def userSelectRunFile(self, event) -> None:
         # csv of voltages after run
+        initDir = None if self.fpathRun == None else os.path.dirname(self.fpathRun)
         fpath = askopenfilename(
             title="SELECT CSV RUN FILE",
             parent=self.root,
             initialfile=self.fpathRun,
-            initialdir=os.path.dirname(self.fpathRun),
+            initialdir=initDir,
         )
         if fpath == "":
             return
         if not CSVProcessing.isValidRunFile(fpath):
+            ctypes.windll.user32.MessageBoxW(
+                0,
+                f"The selected file is not a valid CSV Run file :\n{fpath}",
+                "Invalid Run File",
+                1,
+            )
             return
         self.setRunFile(fpath)
 
     def userSelectTargetFile(self, event) -> None:
         # csv of targets for a run
+        initDir = (
+            None if self.fpathTargets == None else os.path.dirname(self.fpathTargets)
+        )
         fpath = askopenfilename(
             title="SELECT CSV TARGET FILE",
             parent=self.root,
             initialfile=self.fpathTargets,
-            initialdir=os.path.dirname(self.fpathTargets),
+            initialdir=initDir,
         )
         if fpath == "":
             return
         if not CSVProcessing.isValidTargetFile(fpath):
+            ctypes.windll.user32.MessageBoxW(
+                0,
+                f"The selected file is not a valid CSV Target file :\n{fpath}",
+                "Invalid Target File",
+                1,
+            )
             return
         self.setTargetFile(fpath)
 
     def setRunFile(self, fpath: str) -> None:
         labelPath = os.path.basename(fpath)
-        self.buttonSelectRunFile.label.set_text(f"Select Run File\n({labelPath})")
+        self.buttonSelectRunFile.label.set_text(f"Run File\n({labelPath})")
         self.fpathRun = fpath
         self.plot()
 
     def setTargetFile(self, fpath: str) -> None:
         labelPath = os.path.basename(fpath)
-        self.buttonSelectTargetFile.label.set_text(f"Select Target File\n({labelPath})")
+        self.buttonSelectTargetFile.label.set_text(f"Target File\n({labelPath})")
         self.fpathTargets = fpath
         self.plot()
 

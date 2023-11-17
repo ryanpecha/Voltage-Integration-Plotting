@@ -13,7 +13,7 @@ def main():
 
     # hide running terminal
     if "--hideTerminal" in sys.argv:
-        #sys.argv.remove("--hideTerminal")
+        sys.argv.remove("--hideTerminal")
         print(f"platform={platform.system()}")
         # only supported for windows
         if platform.system() == "Windows":
