@@ -1,0 +1,1 @@
+python3 -m pybadges --embed-logo --left-text="python" --right-text=">= 3.11" --whole-link="https://www.python.org/" --logo="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/python.svg" > %0"\..\"pyVersionsBadge.svg

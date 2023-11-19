@@ -1,5 +1,5 @@
-matplotlib==3.6.2
-pandas==1.5.1
-pyarrow==14.0.1
-PyQt5==5.15.7
-pywin32==306
+matplotlib>=3.6.2
+pandas>=1.5.1
+pyarrow>=14.0.1
+PyQt5>=5.15.7
+pywin32>=306

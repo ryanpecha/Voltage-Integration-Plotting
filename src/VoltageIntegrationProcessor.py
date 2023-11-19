@@ -3,7 +3,6 @@ def main():
 
     import os
     import sys
-    import platform
     import matplotlib
     import win32.win32gui
     from tkinter import Tk
