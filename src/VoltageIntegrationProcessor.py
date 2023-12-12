@@ -8,7 +8,8 @@ def main():
     from tkinter import Tk
     import win32.lib.win32con
     from CVIPGUI import VIPGUI
-    from CCSVProcessing import CSVProcessing
+    from CRunData import RunData
+    from CTargetData import TargetData
 
     # hide running terminal
     if "--hideTerminal" in sys.argv:
@@ -35,9 +36,9 @@ def main():
             pass
         if os.path.isdir(fpath):
             pass
-        elif CSVProcessing.isValidRunFile(fpath):
+        elif RunData.isValidFile(fpath):
             gui.setRunFile(fpath)
-        elif CSVProcessing.isValidTargetFile(fpath):
+        elif TargetData.isValidFile(fpath):
             gui.setTargetFile(fpath)
     gui.launch()
 

@@ -1,14 +1,11 @@
 import os
-import sys
 import ctypes
-import matplotlib
-import pandas as pd
 from tkinter import Tk
+from CRunData import RunData
+from CTargetData import TargetData
 from matplotlib import pyplot as plt
 from matplotlib.widgets import Slider
 from matplotlib.widgets import Button
-from matplotlib.widgets import TextBox
-from CCSVProcessing import CSVProcessing
 from tkinter.filedialog import askopenfilename
 
 
@@ -24,41 +21,47 @@ class VIPGUI:
         self.axesShade: float = 0.85
 
         # user gui params
-        self.floor: float = 0
+        self.floorVal: float = 0
 
         # file data
-        self.fpathRun: str | None = None
-        self.fpathTargets: str | None = None
-        self.expectedAblationCount: int = 0
+        self.fpathRunData: str | None = None
+        self.runData: RunData | None = None
+        self.fpathTargetData: str | None = None
+        self.targetData: TargetData | None = None
 
         # gui refs
-        figure, axes = plt.subplots()
-
+        self.figure, self.axes = plt.subplots()
+        self.figurePlot = plt.gca()
         # styling the plot
-        figure.set_facecolor((self.figureShade, self.figureShade, self.figureShade))
-        axes.set_facecolor((self.axesShade, self.axesShade, self.axesShade))
+        self.figure.set_facecolor(
+            (self.figureShade, self.figureShade, self.figureShade)
+        )
+        self.axes.set_facecolor((self.axesShade, self.axesShade, self.axesShade))
 
         # setup for plotting the primary integration data
-        plt.plot([], [], linewidth=1, label="Voltage")
+        (self.plt_voltageLine,) = plt.plot(
+            [],
+            [],
+            linewidth=1,
+            label="Voltage V",
+        )
         plt.subplots_adjust(bottom=0.2)
         plt.title("Ablations On Voltage Integrations")
         plt.xlabel(f"Time Secs [ {0} , {0} ]")
         plt.ylabel(f"Voltage V [ {0} , {0} ]")
 
         # initializing and drawing the floor line
-        self.floorCoordXs = [0, 0]
-        self.floorCoordYs = [0, 0]
-        (self.floorLine,) = plt.plot(
-            self.floorCoordXs,
-            self.floorCoordYs,
+        (self.plt_floorLine,) = plt.plot(
+            [0, 0],
+            [0, 0],
             color="purple",
             linewidth=1,
             linestyle="dashed",
-            label=f"Floor V : {self.floor}",
+            label=f"Floor V : {self.floorVal}",
         )
 
         # initializing the plot items and plot legend
-        (self.pltList_expectedAblationCount,) = plt.plot(
+        (self.plt_expectedAblationCount,) = plt.plot(
             [],
             [],
             "o",
@@ -66,23 +69,23 @@ class VIPGUI:
             markersize=0,
             label=f"Expected Ablations : -",
         )
-        (self.pltList_unidentifiedAblationCount,) = plt.plot(
+        (self.plt_unidentifiedAblationCount,) = plt.plot(
             [], [], "o", color="black", markersize=0, label="Unidentified Ablations : -"
         )
-        (self.pltList_detectedAblations,) = plt.plot(
+        (self.plt_detectedAblations,) = plt.plot(
             [], [], "x", color="green", markersize=5, label="Detected Ablations : -"
         )
-        (self.pltList_detectedAnomalies,) = plt.plot(
+        (self.plt_detectedAnomalies,) = plt.plot(
             [], [], "x", color="purple", markersize=5, label="Detected Anomalies : -"
         )
-        (self.pltList_detectedMissingAblations_flat,) = plt.plot(
+        (self.plt_detectedMissingAblations_flat,) = plt.plot(
             [], [], "x", color="red", markersize=5, label="Detected Missing : -"
         )
-        (self.pltList_detectedMissingAblations_intersect,) = plt.plot(
+        (self.plt_detectedMissingAblations_intersect,) = plt.plot(
             [], [], "+", color="red", markersize=5, label="Detected Miss (Intersection)"
         )
         # init and ref to legend
-        self.pltLegend = plt.legend(
+        self.plt_legend = plt.legend(
             facecolor=(self.figureShade, self.figureShade, self.figureShade)
         )
 
@@ -94,60 +97,71 @@ class VIPGUI:
         self.altStyles = ("normal", "italic")
         self.altSizes = (7, 8)
 
-        #
+        # floor value slider
         left = 0.125
         bottom = 0.05
         width = 0.775
         height = 0.05
         pltFloorAxis = plt.axes([left, bottom, width, height])
         self.floorIncrement = 0.001
-        self.pltFloorSlider = Slider(
+        self.plt_floorSlider = Slider(
             ax=pltFloorAxis,
             label="Floor V",
-            valmin=-1,
-            valmax=1,
+            valmin=-1,  # to be set on file selection
+            valmax=1,  # to be set on file selection
             valinit=0,
             valstep=self.floorIncrement,
             track_color=(self.axesShade, self.axesShade, self.axesShade),
         )
+        self.plt_floorSlider.on_changed(self.setFloor)
 
-        #
+        # run csv file selection button
         left = 0
         bottom = 0
         width = 0.5
         height = 0.05
         pltFloorAxis = plt.axes([left, bottom, width, height])
-        self.buttonSelectRunFile = Button(
+        self.plt_buttonSelectRunFile = Button(
             ax=pltFloorAxis,
             label="Run File\n(SELECT)",
         )
-        self.buttonSelectRunFile.on_clicked(self.userSelectRunFile)
+        self.plt_buttonSelectRunFile.on_clicked(self.userSelectRunFile)
 
-        #
+        # target csv file selection button
         left = 0.5
         bottom = 0
         width = 0.5
         height = 0.05
         pltFloorAxis = plt.axes([left, bottom, width, height])
-        self.buttonSelectTargetFile = Button(
+        self.plt_buttonSelectTargetFile = Button(
             ax=pltFloorAxis,
             label="Target File\n(SELECT)",
         )
-        self.buttonSelectTargetFile.on_clicked(self.userSelectTargetFile)
+        self.plt_buttonSelectTargetFile.on_clicked(self.userSelectTargetFile)
+
+    def setFloor(self, val):
+        self.floorVal = val
+        self.plot()
+
+    def plotFloor(self):
+        self.plt_floorLine.set_ydata([self.floorVal, self.floorVal])
+        # self.floorLine.set_xdata([self.floorVal,self.floorVal])
 
     def userSelectRunFile(self, event) -> None:
         """ """
         # csv of voltages after run
-        initDir = None if self.fpathRun == None else os.path.dirname(self.fpathRun)
+        initDir = (
+            None if self.fpathRunData == None else os.path.dirname(self.fpathRunData)
+        )
         fpath = askopenfilename(
             title="SELECT CSV RUN FILE",
             parent=self.root,
-            initialfile=self.fpathRun,
+            initialfile=self.fpathRunData,
             initialdir=initDir,
         )
         if fpath == "":
             return
-        if not CSVProcessing.isValidRunFile(fpath):
+        if not RunData.isValidFile(fpath):
             ctypes.windll.user32.MessageBoxW(
                 0,
                 f"The selected file is not a valid CSV Run file :\n{fpath}",
@@ -161,17 +175,19 @@ class VIPGUI:
         """ """
         # csv of targets for a run
         initDir = (
-            None if self.fpathTargets == None else os.path.dirname(self.fpathTargets)
+            None
+            if self.fpathTargetData == None
+            else os.path.dirname(self.fpathTargetData)
         )
         fpath = askopenfilename(
             title="SELECT CSV TARGET FILE",
             parent=self.root,
-            initialfile=self.fpathTargets,
+            initialfile=self.fpathTargetData,
             initialdir=initDir,
         )
         if fpath == "":
             return
-        if not CSVProcessing.isValidTargetFile(fpath):
+        if not TargetData.isValidFile(fpath):
             ctypes.windll.user32.MessageBoxW(
                 0,
                 f"The selected file is not a valid CSV Target file :\n{fpath}",
@@ -184,24 +200,33 @@ class VIPGUI:
     def setRunFile(self, fpath: str) -> None:
         """ """
         labelPath = os.path.basename(fpath)
-        self.buttonSelectRunFile.label.set_text(f"Run File\n({labelPath})")
-        self.fpathRun = fpath
+        self.plt_buttonSelectRunFile.label.set_text(f"Run File\n({labelPath})")
+        self.fpathRunData = fpath
+        self.runData = RunData(
+            fpath,
+            self.floorVal,
+            self.figurePlot,
+            self.plt_floorLine,
+            self.plt_floorSlider,
+            self.plt_voltageLine,
+        )
         self.plot()
 
     def setTargetFile(self, fpath: str) -> None:
         """ """
         labelPath = os.path.basename(fpath)
-        self.buttonSelectTargetFile.label.set_text(f"Target File\n({labelPath})")
-        self.fpathTargets = fpath
+        self.plt_buttonSelectTargetFile.label.set_text(f"Target File\n({labelPath})")
+        self.fpathTargetData = fpath
+        self.targetData = TargetData(fpath)
         self.plot()
 
     def plot(self) -> None:
         """ """
-        if self.fpathRun != None:
-            pass
-        if self.fpathTargets != None:
-            pass
-        # if self.fpathRun != None and self.fpathTargets != None:
+        if self.fpathRunData != None:
+            self.runData.update(self.floorVal)
+        if self.fpathTargetData != None:
+            self.targetData.update()
+        self.figure.canvas.draw_idle()
 
     def launch(self) -> None:
         """ """
