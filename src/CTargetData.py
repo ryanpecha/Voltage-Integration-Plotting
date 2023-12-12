@@ -8,8 +8,7 @@ class TargetData(CSVData):
 
     validBodyColCount: int = 9
 
-    def __init__(self, fpath: str, plot: plt) -> None:
-        self.plot = plot
+    def __init__(self, fpath: str) -> None:
         super().__init__(fpath, TargetData.validBodyColCount)
 
     @staticmethod
@@ -18,9 +17,4 @@ class TargetData(CSVData):
 
     def getTargetCount(self) -> int:
         return len(self.rows)
-
-    def update() -> None:
-        pass
-
-    def plot(self) -> None:
-        pass
+ 

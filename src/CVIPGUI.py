@@ -2,6 +2,7 @@ import os
 import ctypes
 from tkinter import Tk
 from CRunData import RunData
+from CCoordCalc import CoordCalc
 from CTargetData import TargetData
 from matplotlib import pyplot as plt
 from matplotlib.widgets import Slider
@@ -28,10 +29,15 @@ class VIPGUI:
         self.runData: RunData | None = None
         self.fpathTargetData: str | None = None
         self.targetData: TargetData | None = None
+        #
+        self.coordCalc: CoordCalc = CoordCalc()
 
         # gui refs
         self.figure, self.axes = plt.subplots()
         self.figurePlot = plt.gca()
+        self.legend = plt.legend(
+            facecolor=(self.figureShade, self.figureShade, self.figureShade)
+        )
         # styling the plot
         self.figure.set_facecolor(
             (self.figureShade, self.figureShade, self.figureShade)
@@ -69,9 +75,6 @@ class VIPGUI:
             markersize=0,
             label=f"Expected Ablations : -",
         )
-        (self.plt_unidentifiedAblationCount,) = plt.plot(
-            [], [], "o", color="black", markersize=0, label="Unidentified Ablations : -"
-        )
         (self.plt_detectedAblations,) = plt.plot(
             [], [], "x", color="green", markersize=5, label="Detected Ablations : -"
         )
@@ -83,6 +86,9 @@ class VIPGUI:
         )
         (self.plt_detectedMissingAblations_intersect,) = plt.plot(
             [], [], "+", color="red", markersize=5, label="Detected Miss (Intersection)"
+        )
+        (self.plt_unidentifiedAblationCount,) = plt.plot(
+            [], [], "o", color="black", markersize=0, label="Unidentified Ablations : -"
         )
         # init and ref to legend
         self.plt_legend = plt.legend(
@@ -141,11 +147,15 @@ class VIPGUI:
 
     def setFloor(self, val):
         self.floorVal = val
-        self.plot()
+        self.plt_legend.get_texts()[1].set_text(f"Floor V : {self.floorVal}")
+        self.update()
 
     def plotFloor(self):
         self.plt_floorLine.set_ydata([self.floorVal, self.floorVal])
-        # self.floorLine.set_xdata([self.floorVal,self.floorVal])
+        if self.runData != None:
+            self.plt_floorLine.set_xdata(
+                [self.runData.timeStampMin, self.runData.timeStampMax]
+            )
 
     def userSelectRunFile(self, event) -> None:
         """ """
@@ -202,15 +212,8 @@ class VIPGUI:
         labelPath = os.path.basename(fpath)
         self.plt_buttonSelectRunFile.label.set_text(f"Run File\n({labelPath})")
         self.fpathRunData = fpath
-        self.runData = RunData(
-            fpath,
-            self.floorVal,
-            self.figurePlot,
-            self.plt_floorLine,
-            self.plt_floorSlider,
-            self.plt_voltageLine,
-        )
-        self.plot()
+        self.runData = RunData(fpath)
+        self.update()
 
     def setTargetFile(self, fpath: str) -> None:
         """ """
@@ -218,14 +221,72 @@ class VIPGUI:
         self.plt_buttonSelectTargetFile.label.set_text(f"Target File\n({labelPath})")
         self.fpathTargetData = fpath
         self.targetData = TargetData(fpath)
-        self.plot()
+        self.update()
 
-    def plot(self) -> None:
+    def update(self) -> None:
         """ """
+        self.plotFloor()
+
         if self.fpathRunData != None:
-            self.runData.update(self.floorVal)
-        if self.fpathTargetData != None:
-            self.targetData.update()
+            # drawing floor line
+            self.plt_floorLine.set_xdata(
+                [self.runData.timeStampMin, self.runData.timeStampMax]
+            )
+            self.plt_floorLine.set_ydata([self.floorVal, self.floorVal])
+            # updating slider range
+            self.plt_floorSlider.valmin = self.runData.voltageMin
+            self.plt_floorSlider.valmax = self.runData.voltageMax
+            self.plt_floorSlider.ax.set_xlim(
+                self.runData.voltageMin, self.runData.voltageMax
+            )
+            # drawing voltage data
+            self.plt_voltageLine.set_xdata(self.runData.timeStamps)
+            self.plt_voltageLine.set_ydata(self.runData.voltages)
+            self.figurePlot.set_xlim(
+                [self.runData.timeStampMin, self.runData.timeStampMax]
+            )
+            self.figurePlot.set_ylim([self.runData.voltageMin, self.runData.voltageMax])
+
+            # updating coordinate calculations
+            if self.fpathTargetData != None:
+                self.coordCalc.update(
+                    self.floorVal,
+                    self.runData.voltages,
+                    self.runData.timeStamps,
+                    self.targetData.getTargetCount(),
+                )
+                # plotting detected ablations
+                self.plt_detectedAblations.set_xdata(self.coordCalc.ablationCoordsX)
+                self.plt_detectedAblations.set_ydata(self.coordCalc.ablationCoordsY)
+                # plotting detected ablations
+                self.plt_detectedAnomalies.set_xdata(self.coordCalc.anomalyCoordsX)
+                self.plt_detectedAnomalies.set_ydata(self.coordCalc.anomalyCoordsX)
+                # updating the value fields of the legend
+                # index 0 - voltage (annotation only)
+                # index 1 - floor (updated by setFloor())
+                # index 2 - expected ablations
+                self.plt_legend.get_texts()[2].set_text(
+                    f"Expected Ablations : {self.targetData.getTargetCount()}"
+                )
+                # index 3 - detected ablations
+                self.plt_legend.get_texts()[3].set_text(
+                    f"Detected Ablations : {len(self.coordCalc.ablationCoordsX)}"
+                )
+                # index 4 - detected anomolies
+                self.plt_legend.get_texts()[4].set_text(
+                    f"Detected Anomalies : {len(self.coordCalc.anomalyCoordsX)}"
+                )
+                # index 5 - detected missing
+                self.plt_legend.get_texts()[5].set_text(
+                    f"Detected Missing : {len(self.coordCalc.missingCoordsX)}"
+                )
+                # index 6 - detected missing (intersection) (annotation only)
+                # index 7 - unidentified ablations
+                self.plt_legend.get_texts()[7].set_text(
+                    f"Unidentified Ablations : {self.coordCalc.unidentifiedAblationCount}"
+                )
+
+        # redrawing UI canvas
         self.figure.canvas.draw_idle()
 
     def launch(self) -> None:
