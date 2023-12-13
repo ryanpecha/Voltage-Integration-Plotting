@@ -18,11 +18,11 @@
 
 ### Sample GUI Plot
 
-![Plot of Sample Data](./sample.png "Plot of Sample Data")
+![Plot of Sample 1 Data](./examples/sample1.png "Plot of Sample 1 Data")
 
 ### Sample GUI Plot Zoomed
 
-![Plot of Zoomed Sample Data](./sampleZoomed.png "Plot of Zoomed Sample Data")
+![Plot of Zoomed Sample 1 Data](./examples/sample1_zoomed.png "Plot of Zoomed Sample 1 Data")
 
 ## File Formatting
 
@@ -31,24 +31,26 @@
 * .scancsv (target) files are csv formatted files specifying the targets for a given run
 * Additional header data preceding the csv is allowed and auto-filtered
 * Additional footer data following the csv is NOT allowed
-* Sample file at [.scancsv](./samples/Malkowski_Hf4_adjusted_cropped_completed_12062022.scancsv)
+* Sample files at [sample1_run](./samples/sample1_targets_scancsv.csv) and [sample2_run](./samples/sample2_targets_scancsv.csv)
 * The length of the extracted csv indicates the expected ablation count
 * Individual targets from the .scancsv file must have consistent time spacing
 * A line containing csv column names can be included or omitted
 * CSV columns :
    | Scan Type | Description | Selected | Lock Edit | Vertex Count | Vertex List | Preablation Settings | Ablation Settings | Data |
    | --------- | ----------- | -------- | --------- | ------------ | ----------- | -------------------- | ----------------- | ---- |
+   | ...       | ...         | ...      | ...       | ...          | ...         | ...                  | ...               | ...  |
 
 ### .run Files
 
 * .run files are csv formatted files containing the results from a given run
 * Additional header data preceding the csv is allowed and auto-filtered
 * Additional footer data following the csv is NOT allowed
-* Sample file at [.run](./samples/Malkowski_Hf4_adjusted_cropped_12062022.run)
+* Sample files at [sample1_targets](./samples/sample1_run.csv) and [sample2_targets](./samples/sample2_run.csv)
 * A line containing csv column names can be included or omitted
 * CSV columns :
-   | TimeStamp Secs | Voltage V | etc... |
-   | -------------- | --------- | ------ |
+   | Column 0 | Voltage V (Column 1) | Column 2 ... Column 10 | TimeStamp Secs (Column 11) | etc... |
+   | -------- | -------------------- | ---------------------- | -------------------------- | ------ |
+   | ...      | ...                  | ...                    | ...                        | ...    |
 
 ## Installation
 
@@ -69,6 +71,7 @@
 git clone https://github.com/ryanpecha/Voltage-Integration-Plotting.git
 cd ./Voltage-Integration-Plotting/
 python3 -m pip install -r ./requirements.txt
+python3 -m pip install -r ./badges/requirements.txt
 ```
 
 ### Developer Tools
