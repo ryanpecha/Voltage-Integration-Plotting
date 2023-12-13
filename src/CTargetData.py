@@ -6,14 +6,12 @@ from pandas.core.indexing import _iLocIndexer
 class TargetData(CSVData):
     """ """
 
-    validBodyColCount: int = 9
-
     def __init__(self, fpath: str) -> None:
-        super().__init__(fpath, TargetData.validBodyColCount)
+        super().__init__(fpath)
 
     @staticmethod
     def isValidFile(fpath: str) -> bool:
-        return CSVData(fpath, TargetData.validBodyColCount).isValidData()
+        return CSVData(fpath).isValidData()
 
     def getTargetCount(self) -> int:
         return len(self.rows)

@@ -61,11 +61,12 @@ class CoordCalc:
 
     def updateMissingAndErrors(
         self, voltages: list[float], timeStamps: list[float], expectedAblationCount: int
-    ):
+    ):  
+        # missing ablation coordinates
         self.missingCoordsX.clear()
         self.missingCoordsY.clear()
         self.missingCoordsFlatY.clear()
-        
+
         # cannot locate missing ablations with only one detected ablation
         if len(self.ablationCoordsX) <= 1:
             return
@@ -132,15 +133,8 @@ class CoordCalc:
 
         # unkown trailing / preceding missing ablations
         self.unidentifiedAblationCount = (
-            expectedAblationCount - len(self.missingCoordsX) - len(self.ablationCoordsX)
+            expectedAblationCount
+            - len(self.missingCoordsX)
+            - len(self.ablationCoordsX)
+            - len(self.anomalyCoordsX)
         )
-
-    def update(
-        self,
-        floorVal: float,
-        voltages: list[float],
-        timeStamps: list[float],
-        expectedAblationCount: int,
-    ):
-        self.updateAblationsAndAnomalies(floorVal, voltages, timeStamps)
-        self.updateMissingAndErrors(voltages, timeStamps, expectedAblationCount)

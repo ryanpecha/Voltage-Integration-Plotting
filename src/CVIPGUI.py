@@ -11,7 +11,9 @@ from tkinter.filedialog import askopenfilename
 
 
 class VIPGUI:
-    """ """
+    """
+    VIP program state and GUI manager
+    """
 
     def __init__(self, root: Tk) -> None:
         """ """
@@ -146,11 +148,18 @@ class VIPGUI:
         self.plt_buttonSelectTargetFile.on_clicked(self.userSelectTargetFile)
 
     def setFloor(self, val):
+        """
+        Set the floor voltage value and update the plot
+        """
         self.floorVal = val
         self.plt_legend.get_texts()[1].set_text(f"Floor V : {self.floorVal}")
         self.update()
 
     def plotFloor(self):
+        """
+        Sets the x and y coordinates of the horizontal floor voltage line.
+        Y is set to the current floor value while X values are 0 and the plot width.
+        """
         self.plt_floorLine.set_ydata([self.floorVal, self.floorVal])
         if self.runData != None:
             self.plt_floorLine.set_xdata(
@@ -158,7 +167,14 @@ class VIPGUI:
             )
 
     def userSelectRunFile(self, event) -> None:
-        """ """
+        """
+        Opens a file selection dialog,
+        allows the user to select a file,
+        checks that the file is a valid run file,
+        and loads the file if valid. Invalid files
+        will not be loaded and prompt the user with
+        an error dialog.
+        """
         # csv of voltages after run
         initDir = (
             None if self.fpathRunData == None else os.path.dirname(self.fpathRunData)
@@ -182,7 +198,14 @@ class VIPGUI:
         self.setRunFile(fpath)
 
     def userSelectTargetFile(self, event) -> None:
-        """ """
+        """
+        Opens a file selection dialog,
+        allows the user to select a file,
+        checks that the file is a valid target file,
+        and loads the file if valid. Invalid files
+        will not be loaded and prompt the user with
+        an error dialog.
+        """
         # csv of targets for a run
         initDir = (
             None
@@ -208,7 +231,11 @@ class VIPGUI:
         self.setTargetFile(fpath)
 
     def setRunFile(self, fpath: str) -> None:
-        """ """
+        """
+        1. Update the run-file-select-button text
+        3. Set and load the given file
+        4. Update the program state and UI
+        """
         labelPath = os.path.basename(fpath)
         self.plt_buttonSelectRunFile.label.set_text(f"Run File\n({labelPath})")
         self.fpathRunData = fpath
@@ -216,7 +243,11 @@ class VIPGUI:
         self.update()
 
     def setTargetFile(self, fpath: str) -> None:
-        """ """
+        """
+        1. Update the target-file-select-button text
+        3. Set and load the given file
+        4. Update the program state and UI
+        """
         labelPath = os.path.basename(fpath)
         self.plt_buttonSelectTargetFile.label.set_text(f"Target File\n({labelPath})")
         self.fpathTargetData = fpath
@@ -224,9 +255,20 @@ class VIPGUI:
         self.update()
 
     def update(self) -> None:
-        """ """
+        """
+        1. Draw the horizontal floor value line
+        2. Update the floor slider range and UI
+        3. Plot the Run Voltage Data
+        3. Calculate ablation and anomaly coordinates from run data
+        4. Plot detected ablations and anomalies
+        5. Calculate expected-count, missing, and unidenfied ablations from target data
+        6. Plot detected missing ablations
+        7. Update legend values
+        8. Refresh the UI Canvas
+        """
+        # drawing horizontal line for the floor value
         self.plotFloor()
-
+        # updating ui and calcs dependent on run data
         if self.fpathRunData != None:
             # drawing floor line
             self.plt_floorLine.set_xdata(
@@ -246,35 +288,38 @@ class VIPGUI:
                 [self.runData.timeStampMin, self.runData.timeStampMax]
             )
             self.figurePlot.set_ylim([self.runData.voltageMin, self.runData.voltageMax])
-
             # updating coordinate calculations
+            self.coordCalc.updateAblationsAndAnomalies(
+                self.floorVal, self.runData.voltages, self.runData.timeStamps
+            )
+            # plotting detected ablations
+            self.plt_detectedAblations.set_xdata(self.coordCalc.ablationCoordsX)
+            self.plt_detectedAblations.set_ydata(self.coordCalc.ablationCoordsY)
+            # plotting detected ablations
+            self.plt_detectedAnomalies.set_xdata(self.coordCalc.anomalyCoordsX)
+            self.plt_detectedAnomalies.set_ydata(self.coordCalc.anomalyCoordsX)
+            # updating the value fields of the legend
+            # index 0 - voltage (annotation only)
+            # index 1 - floor (updated by setFloor())
+            # index 3 - detected ablations
+            self.plt_legend.get_texts()[3].set_text(
+                f"Detected Ablations : {len(self.coordCalc.ablationCoordsX)}"
+            )
+            # index 4 - detected anomolies
+            self.plt_legend.get_texts()[4].set_text(
+                f"Detected Anomalies : {len(self.coordCalc.anomalyCoordsX)}"
+            )
+            # updating ui and calcs dependent on target data
             if self.fpathTargetData != None:
-                self.coordCalc.update(
-                    self.floorVal,
-                    self.runData.voltages,
-                    self.runData.timeStamps,
-                    self.targetData.getTargetCount(),
-                )
-                # plotting detected ablations
-                self.plt_detectedAblations.set_xdata(self.coordCalc.ablationCoordsX)
-                self.plt_detectedAblations.set_ydata(self.coordCalc.ablationCoordsY)
-                # plotting detected ablations
-                self.plt_detectedAnomalies.set_xdata(self.coordCalc.anomalyCoordsX)
-                self.plt_detectedAnomalies.set_ydata(self.coordCalc.anomalyCoordsX)
-                # updating the value fields of the legend
-                # index 0 - voltage (annotation only)
-                # index 1 - floor (updated by setFloor())
                 # index 2 - expected ablations
                 self.plt_legend.get_texts()[2].set_text(
                     f"Expected Ablations : {self.targetData.getTargetCount()}"
                 )
-                # index 3 - detected ablations
-                self.plt_legend.get_texts()[3].set_text(
-                    f"Detected Ablations : {len(self.coordCalc.ablationCoordsX)}"
-                )
-                # index 4 - detected anomolies
-                self.plt_legend.get_texts()[4].set_text(
-                    f"Detected Anomalies : {len(self.coordCalc.anomalyCoordsX)}"
+                # updating coordinate calculations
+                self.coordCalc.updateMissingAndErrors(
+                    self.runData.voltages,
+                    self.runData.timeStamps,
+                    self.targetData.getTargetCount(),
                 )
                 # index 5 - detected missing
                 self.plt_legend.get_texts()[5].set_text(
@@ -285,10 +330,11 @@ class VIPGUI:
                 self.plt_legend.get_texts()[7].set_text(
                     f"Unidentified Ablations : {self.coordCalc.unidentifiedAblationCount}"
                 )
-
         # redrawing UI canvas
         self.figure.canvas.draw_idle()
 
     def launch(self) -> None:
-        """ """
+        """
+        Display the UI to the user
+        """
         plt.show()
