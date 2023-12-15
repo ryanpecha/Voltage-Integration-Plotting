@@ -292,6 +292,9 @@ class VIPGUI:
             self.coordCalc.updateAblationsAndAnomalies(
                 self.floorVal, self.runData.voltages, self.runData.timeStamps
             )
+            # updating axis labels to match value ranges of loaded file data
+            self.figurePlot.set_xlabel(f"Time Secs [ {self.runData.timeStampMin} , {self.runData.timeStampMax} ]")
+            self.figurePlot.set_ylabel(f"Voltage V [ {self.runData.voltageMin} , {self.runData.voltageMax} ]")
             # plotting detected ablations
             self.plt_detectedAblations.set_xdata(self.coordCalc.ablationCoordsX)
             self.plt_detectedAblations.set_ydata(self.coordCalc.ablationCoordsY)
