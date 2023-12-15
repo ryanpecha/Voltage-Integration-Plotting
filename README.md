@@ -84,14 +84,6 @@ python3 -m pip install -r ./badges/requirements.txt
 ./badges/genBadge.bat
 ```
 
-#### Test Runner
-
-* Generates and writes a test report to stdout
-
-```cmd
-./testing/runTests.py
-```
-
 ## Citation Format
 
 > Pecha, R. A. (*versionYear*, *versionMonth* *versionDay*). Voltage-Integration-Plotting Version (*version*). Retrieved *retrieveMonth* *retrieveDay*, *retrieveYear*, from https://github.com/ryanpecha/Voltage-Integration-Plotting. 

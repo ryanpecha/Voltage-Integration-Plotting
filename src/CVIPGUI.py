@@ -3,6 +3,7 @@ import ctypes
 from tkinter import Tk
 from CRunData import RunData
 from CCoordCalc import CoordCalc
+from matplotlib.axes import Axes
 from CTargetData import TargetData
 from matplotlib import pyplot as plt
 from matplotlib.widgets import Slider
@@ -36,7 +37,7 @@ class VIPGUI:
 
         # gui refs
         self.figure, self.axes = plt.subplots()
-        self.figurePlot = plt.gca()
+        self.figurePlot: Axes = plt.gca()
         self.legend = plt.legend(
             facecolor=(self.figureShade, self.figureShade, self.figureShade)
         )
@@ -338,11 +339,21 @@ class VIPGUI:
                     f"Unidentified Ablations : {self.coordCalc.unidentifiedAblationCount}"
                 )
                 # drawing missing ablation coordinates at flat line with average ablation y val
-                self.plt_detectedMissingAblations_flat.set_xdata(self.coordCalc.missingCoordsX)
-                self.plt_detectedMissingAblations_flat.set_ydata(self.coordCalc.missingCoordsFlatY)
+                self.plt_detectedMissingAblations_flat.set_xdata(
+                    self.coordCalc.missingCoordsX
+                )
+                self.plt_detectedMissingAblations_flat.set_ydata(
+                    self.coordCalc.missingCoordsFlatY
+                )
                 # drawing missing ablation coordinates at voltage line intersection
-                self.plt_detectedMissingAblations_intersect.set_xdata(self.coordCalc.missingCoordsX)
-                self.plt_detectedMissingAblations_intersect.set_ydata(self.coordCalc.missingCoordsY)
+                self.plt_detectedMissingAblations_intersect.set_xdata(
+                    self.coordCalc.missingCoordsX
+                )
+                self.plt_detectedMissingAblations_intersect.set_ydata(
+                    self.coordCalc.missingCoordsY
+                )
+        # redrawing coord label text
+        self.coordCalc.updateCoordText(self.figurePlot)
         # redrawing UI canvas
         self.figure.canvas.draw_idle()
 

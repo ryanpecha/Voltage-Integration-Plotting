@@ -1,3 +1,7 @@
+from matplotlib.text import Text
+from matplotlib.axes import Axes
+
+
 class CoordCalc:
     def __init__(self) -> None:
         # detected ablation coordinates
@@ -14,9 +18,11 @@ class CoordCalc:
         self.missingCoordsFlatY: list[float] = []
         # unkown trailing / preceding missing ablations
         self.unidentifiedAblationCount: int = 0
-        #
-        self.ablationCoordsX:list[tuple[float,float]] = []
-        self.ablationCoordsY:list[tuple[float,float]] = []
+        # text labelling coords
+        self.allCoordText: list[Text] = []
+        # analysis properties
+        self.ablationTimeStepMode: float = 0
+        self.averageAblationY: float = 0
 
     def updateAblationsAndAnomalies(
         self,
@@ -64,7 +70,7 @@ class CoordCalc:
 
     def updateMissingAndErrors(
         self, voltages: list[float], timeStamps: list[float], expectedAblationCount: int
-    ):  
+    ):
         # missing ablation coordinates
         self.missingCoordsX = []
         self.missingCoordsY = []
@@ -96,6 +102,7 @@ class CoordCalc:
             ablationTimeStepMode = (
                 self.ablationCoordsX[-1] - self.ablationCoordsX[0]
             ) / (len(self.ablationCoordsX) - 1)
+        self.ablationTimeStepMode = ablationTimeStepMode
 
         # scaling time step overlap by 1.5 to allow for step variation
         allowableTimeStep = ablationTimeStepMode * 1.5
@@ -103,6 +110,7 @@ class CoordCalc:
         for y in self.ablationCoordsY:
             averageAblationY += y
         averageAblationY /= len(self.ablationCoordsY)
+        self.averageAblationY = averageAblationY
 
         # calculating missing ablations
         for i in range(0, len(self.ablationCoordsX) - 1):
@@ -141,3 +149,92 @@ class CoordCalc:
             - len(self.ablationCoordsX)
             - len(self.anomalyCoordsX)
         )
+
+    def updateCoordText(self, figurePlot: Axes):
+        # plot text attributes
+        shade1 = 0.00
+        shade2 = 0.20
+        colors = ((shade1, shade1, shade1), (shade2, shade2, shade2))
+        alignments = ("top", "bottom")
+        styles = ("normal", "italic")
+        sizes = (7, 8)
+        # removing existing text from plot
+        for text in self.allCoordText:
+            text.remove()
+        allCoordsText = []
+        allCoordsX = sorted(
+            self.ablationCoordsX + self.missingCoordsX + self.anomalyCoordsX
+        )
+        # ablations
+        for i in range(len(self.ablationCoordsX)):
+            x = self.ablationCoordsX[i]
+            y = self.ablationCoordsY[i]
+            globalIndex = allCoordsX.index(x)
+            allCoordsText.append(
+                figurePlot.text(
+                    x=x,
+                    y=y,
+                    s=str(globalIndex),
+                    fontsize=sizes[(globalIndex % 4) > 1],
+                    color=colors[(globalIndex % 4) > 1],
+                    verticalalignment=alignments[globalIndex % 2],
+                    fontfamily="monospace",
+                    fontstyle=styles[(globalIndex % 4) > 1],
+                    alpha=0.75,
+                )
+            )
+        # anomalies
+        for i in range(len(self.anomalyCoordsX)):
+            x = self.anomalyCoordsX[i]
+            y = self.anomalyCoordsY[i]
+            globalIndex = allCoordsX.index(x)
+            allCoordsText.append(
+                figurePlot.text(
+                    x=x,
+                    y=y,
+                    s=str(globalIndex),
+                    fontsize=sizes[(globalIndex % 4) > 1],
+                    color=colors[(globalIndex % 4) > 1],
+                    verticalalignment=alignments[globalIndex % 2],
+                    fontfamily="monospace",
+                    fontstyle=styles[(globalIndex % 4) > 1],
+                    alpha=0.75,
+                )
+            )
+        # errors / missing
+        for i in range(len(self.missingCoordsX)):
+            x = self.missingCoordsX[i]
+            y = self.missingCoordsFlatY[i]
+            globalIndex = allCoordsX.index(x)
+            allCoordsText.append(
+                figurePlot.text(
+                    x=x,
+                    y=y,
+                    s=str(globalIndex),
+                    fontsize=sizes[(globalIndex % 4) > 1],
+                    color=colors[(globalIndex % 4) > 1],
+                    verticalalignment=alignments[globalIndex % 2],
+                    fontfamily="monospace",
+                    fontstyle=styles[(globalIndex % 4) > 1],
+                    alpha=0.75,
+                )
+            )
+        # unidentified point labeling
+        if self.unidentifiedAblationCount > 0:
+            x = allCoordsX[-1] + (self.ablationTimeStepMode * 8)
+            y = self.averageAblationY
+            allCoordsText.append(
+                figurePlot.text(
+                    x=x,
+                    y=y,
+                    s=f"{self.unidentifiedAblationCount} UNIDENTIFIED",
+                    fontsize=8,
+                    color="red",
+                    verticalalignment="bottom",
+                    fontfamily="monospace",
+                    fontstyle="normal",
+                    alpha=1,
+                )
+            )
+        # updating text ref
+        self.allCoordText = allCoordsText
