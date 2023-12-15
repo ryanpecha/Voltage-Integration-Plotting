@@ -14,6 +14,9 @@ class CoordCalc:
         self.missingCoordsFlatY: list[float] = []
         # unkown trailing / preceding missing ablations
         self.unidentifiedAblationCount: int = 0
+        #
+        self.ablationCoordsX:list[tuple[float,float]] = []
+        self.ablationCoordsY:list[tuple[float,float]] = []
 
     def updateAblationsAndAnomalies(
         self,
@@ -22,13 +25,13 @@ class CoordCalc:
         timeStamps: list[float],
     ) -> None:
         # detected ablation coordinates
-        self.ablationCoordsX.clear()
-        self.ablationCoordsY.clear()
+        self.ablationCoordsX = []
+        self.ablationCoordsY = []
         # anomalous coordinates
-        self.anomalyCoordsX.clear()
-        self.anomalyCoordsY.clear()
+        self.anomalyCoordsX = []
+        self.anomalyCoordsY = []
         # list of timestamps indices where ablations were detected
-        self.ablationTimeIndices.clear()
+        self.ablationTimeIndices = []
         # current saddle properties
         saddleSize = 0
         saddleIndex = 0
@@ -63,9 +66,9 @@ class CoordCalc:
         self, voltages: list[float], timeStamps: list[float], expectedAblationCount: int
     ):  
         # missing ablation coordinates
-        self.missingCoordsX.clear()
-        self.missingCoordsY.clear()
-        self.missingCoordsFlatY.clear()
+        self.missingCoordsX = []
+        self.missingCoordsY = []
+        self.missingCoordsFlatY = []
 
         # cannot locate missing ablations with only one detected ablation
         if len(self.ablationCoordsX) <= 1:

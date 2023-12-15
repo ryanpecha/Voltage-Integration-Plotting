@@ -293,14 +293,18 @@ class VIPGUI:
                 self.floorVal, self.runData.voltages, self.runData.timeStamps
             )
             # updating axis labels to match value ranges of loaded file data
-            self.figurePlot.set_xlabel(f"Time Secs [ {self.runData.timeStampMin} , {self.runData.timeStampMax} ]")
-            self.figurePlot.set_ylabel(f"Voltage V [ {self.runData.voltageMin} , {self.runData.voltageMax} ]")
+            self.figurePlot.set_xlabel(
+                f"Time Secs [ {self.runData.timeStampMin} , {self.runData.timeStampMax} ]"
+            )
+            self.figurePlot.set_ylabel(
+                f"Voltage V [ {self.runData.voltageMin} , {self.runData.voltageMax} ]"
+            )
             # plotting detected ablations
             self.plt_detectedAblations.set_xdata(self.coordCalc.ablationCoordsX)
             self.plt_detectedAblations.set_ydata(self.coordCalc.ablationCoordsY)
             # plotting detected ablations
             self.plt_detectedAnomalies.set_xdata(self.coordCalc.anomalyCoordsX)
-            self.plt_detectedAnomalies.set_ydata(self.coordCalc.anomalyCoordsX)
+            self.plt_detectedAnomalies.set_ydata(self.coordCalc.anomalyCoordsY)
             # updating the value fields of the legend
             # index 0 - voltage (annotation only)
             # index 1 - floor (updated by setFloor())
@@ -333,6 +337,12 @@ class VIPGUI:
                 self.plt_legend.get_texts()[7].set_text(
                     f"Unidentified Ablations : {self.coordCalc.unidentifiedAblationCount}"
                 )
+                # drawing missing ablation coordinates at flat line with average ablation y val
+                self.plt_detectedMissingAblations_flat.set_xdata(self.coordCalc.missingCoordsX)
+                self.plt_detectedMissingAblations_flat.set_ydata(self.coordCalc.missingCoordsFlatY)
+                # drawing missing ablation coordinates at voltage line intersection
+                self.plt_detectedMissingAblations_intersect.set_xdata(self.coordCalc.missingCoordsX)
+                self.plt_detectedMissingAblations_intersect.set_ydata(self.coordCalc.missingCoordsY)
         # redrawing UI canvas
         self.figure.canvas.draw_idle()
 

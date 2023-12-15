@@ -333,7 +333,7 @@ def plot(
             y = ablationsY[i]
             globalIndex = allX.index(x)
             textList.append(
-                plt.text(
+                t = plt.text(
                     x = x,
                     y = y,
                     s = str(globalIndex),
