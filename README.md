@@ -73,6 +73,7 @@ git clone https://github.com/ryanpecha/Voltage-Integration-Plotting.git
 cd ./Voltage-Integration-Plotting/
 python3 -m pip install -r ./requirements.txt
 python3 -m pip install -r ./badges/requirements.txt
+python3 -m pip install -r ./tests/requirements.txt
 ```
 
 ### Developer Tools
@@ -83,6 +84,14 @@ python3 -m pip install -r ./badges/requirements.txt
 
 ```cmd
 ./badges/genBadge.bat
+```
+
+#### Test Runner
+
+* Generates and writes a test report to stdout
+
+```cmd
+./tests/runTests.py
 ```
 
 ## Citation Format
