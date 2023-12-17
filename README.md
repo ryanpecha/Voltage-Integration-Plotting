@@ -56,9 +56,10 @@
 
 1. Install Python 3.11 or newer
    * Verify via `cmd` with the command `python3 --version`
-2. Download the latest vip installer [here](https://github.com/ryanpecha/Voltage-Integration-Plotting/releases)
-3. Right click `vipInstaller.exe` and **RUN AS ADMINISTRATOR**
-4. Tool shortcuts will be added to the following locations
+2. Download the latest vip version [here](https://github.com/ryanpecha/Voltage-Integration-Plotting/releases)
+3. Move the downloaded folder to the target installation location
+4. Right click `install.bat` and **RUN AS ADMINISTRATOR**
+5. Tool shortcuts will be added to the following locations
    1. Desktop (Voltage Integration Plotter)
    2. Start Menu (Voltage Integration Plotter)
    3. File Explorer (`right click` any file or folder and select `Open with VIP`)
