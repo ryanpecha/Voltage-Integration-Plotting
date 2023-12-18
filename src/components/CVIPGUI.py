@@ -1,10 +1,10 @@
 import os
 import ctypes
 from tkinter import Tk
-from CRunData import RunData
-from CCoordCalc import CoordCalc
+from .CRunData import RunData
+from .CCoordCalc import CoordCalc
 from matplotlib.axes import Axes
-from CTargetData import TargetData
+from .CTargetData import TargetData
 from matplotlib import pyplot as plt
 from matplotlib.widgets import Slider
 from matplotlib.widgets import Button

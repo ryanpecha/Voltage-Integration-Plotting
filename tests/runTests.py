@@ -10,10 +10,11 @@ def main():
     # running python tests
     coms = [
         f'cd "{repoPath}"',
-        "python3.11 -m pytest -vv --cov --cov-report term-missing",
+        "python3 -m pytest -vv --cov --cov-report term-missing",
     ]
-    coms = ";".join(coms)
-    subprocess.run(coms, shell=True, capture_output=False)
+    coms = "&& ".join(coms)
+    testProc = subprocess.run(coms, shell=True, capture_output=False)
+    testProc.check_returncode()
 
 
 if __name__ == "__main__":

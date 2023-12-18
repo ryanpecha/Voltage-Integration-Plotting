@@ -7,9 +7,9 @@ def main():
     import win32.win32gui
     from tkinter import Tk
     import win32.lib.win32con
-    from CVIPGUI import VIPGUI
-    from CRunData import RunData
-    from CTargetData import TargetData
+    from components.CVIPGUI import VIPGUI
+    from components.CRunData import RunData
+    from components.CTargetData import TargetData
 
     # hide running terminal
     if "--hideTerminal" in sys.argv:

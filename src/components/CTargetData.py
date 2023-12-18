@@ -1,6 +1,4 @@
-from CCSVData import CSVData
-from matplotlib import pyplot as plt
-from pandas.core.indexing import _iLocIndexer
+from .CCSVData import CSVData
 
 
 class TargetData(CSVData):
