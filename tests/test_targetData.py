@@ -28,5 +28,5 @@ def test_targetData_sample(fpath: str, artifactPath: str):
     with open(artifactPath, "wb") as fopen:
         pickle.dump(targetData, fopen)
     with open(artifactPath, "rb") as fopen:
-        artifact: targetData = pickle.load(fopen)
+        artifact: TargetData = pickle.load(fopen)
     check.equal(targetData.rows, artifact.rows)
