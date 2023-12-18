@@ -11,10 +11,10 @@ class RunData(CSVData):
         fpath: str,
     ) -> None:
         super().__init__(fpath, RunData.validBodyColCount)
-        #
+        # extracted
         self.timeStamps = self.extractTimeStamps()
         self.voltages = self.extractVoltages()
-        #
+        # calculated
         self.timeStampMin = min(self.timeStamps)
         self.timeStampMax = max(self.timeStamps)
         self.voltageMin = min(self.voltages)

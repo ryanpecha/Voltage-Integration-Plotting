@@ -32,7 +32,6 @@ class VIPGUI:
         self.runData: RunData | None = None
         self.fpathTargetData: str | None = None
         self.targetData: TargetData | None = None
-        #
         self.coordCalc: CoordCalc = CoordCalc()
 
         # gui refs
