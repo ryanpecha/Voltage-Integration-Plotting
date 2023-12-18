@@ -17,7 +17,6 @@ class VIPGUI:
     """
 
     def __init__(self, root: Tk) -> None:
-        """ """
         self.root: Tk = root
 
         # gui settings

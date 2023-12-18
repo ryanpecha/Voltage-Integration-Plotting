@@ -2,7 +2,7 @@ from .CCSVData import CSVData
 
 
 class RunData(CSVData):
-    """ """
+    """Data loaded from a csv run file"""
 
     validBodyColCount: int = 13
 

@@ -2,7 +2,7 @@ from .CCSVData import CSVData
 
 
 class TargetData(CSVData):
-    """ """
+    """Data loaded from a csv target file"""
 
     def __init__(self, fpath: str) -> None:
         super().__init__(fpath)

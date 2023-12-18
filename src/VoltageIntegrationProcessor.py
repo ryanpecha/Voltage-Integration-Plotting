@@ -1,5 +1,5 @@
 def main():
-    """ """
+    """VIP Program Launcher"""
 
     import os
     import sys
