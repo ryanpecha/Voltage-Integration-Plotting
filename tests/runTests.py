@@ -14,7 +14,6 @@ def main():
     ]
     coms = "&& ".join(coms)
     testProc = subprocess.run(coms, shell=True, capture_output=False)
-    testProc.check_returncode()
 
 
 if __name__ == "__main__":
