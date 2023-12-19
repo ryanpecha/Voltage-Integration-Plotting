@@ -10,7 +10,7 @@ def main():
     # running python tests
     coms = [
         f'cd "{repoPath}"',
-        "python3 -m pytest -vv --cov --cov-report term-missing",
+        "python3 -m pytest -p no:warnings -vv --cov --cov-report term-missing",
     ]
     coms = "&& ".join(coms)
     subprocess.run(coms, shell=True, capture_output=False)
