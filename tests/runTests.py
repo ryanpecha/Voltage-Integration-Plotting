@@ -13,7 +13,7 @@ def main():
         "python3 -m pytest -vv --cov --cov-report term-missing",
     ]
     coms = "&& ".join(coms)
-    testProc = subprocess.run(coms, shell=True, capture_output=False)
+    subprocess.run(coms, shell=True, capture_output=False)
 
 
 if __name__ == "__main__":
