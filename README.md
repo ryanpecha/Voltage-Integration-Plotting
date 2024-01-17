@@ -90,7 +90,7 @@ python3 -m pip install -r ./tests/requirements.txt
 * Generates and writes a test report to stdout
 
 ```cmd
-./tests/runTests.py
+python3 ./tests/runTests.py
 ```
 
 ## Citation Format
